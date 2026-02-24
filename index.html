@@ -5,7 +5,7 @@
   <title>AI Tutor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Font: Lovelace (if installed) with clean fallback -->
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -24,13 +24,13 @@
       justify-content: center;
       align-items: center;
       padding: 16px;
-      background: #020712; /* solid dark background, no gradient */
+      background: #020712;
       color: #f9fafb;
     }
 
     .app {
       width: 100%;
-      max-width: 960px;
+      max-width: 1040px;
       background: #020b12;
       border-radius: 24px;
       padding: 18px 20px 14px;
@@ -97,8 +97,7 @@
     }
 
     .nav button {
-      flex: 1;
-      min-width: 120px;
+      flex: 1 1 130px;
       border-radius: 999px;
       border: none;
       padding: 8px 10px;
@@ -111,6 +110,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      white-space: nowrap;
     }
 
     .nav button span.icon {
@@ -216,6 +216,7 @@
       border-radius: 16px;
       font-size: 0.95rem;
       line-height: 1.45;
+      width: 100%;
     }
 
     .message.user .bubble {
@@ -247,11 +248,7 @@
       gap: 4px;
     }
 
-    .dot-pulse {
-      display: inline-flex;
-      gap: 3px;
-    }
-
+    .dot-pulse { display: inline-flex; gap: 3px; }
     .dot-pulse span {
       width: 5px;
       height: 5px;
@@ -259,7 +256,6 @@
       background: #bbf7d0;
       animation: pulse 1s infinite ease-in-out;
     }
-
     .dot-pulse span:nth-child(2) { animation-delay: 0.15s; }
     .dot-pulse span:nth-child(3) { animation-delay: 0.3s; }
 
@@ -289,21 +285,29 @@
       color: #9ca3af;
     }
 
-    .chat-input-row button {
+    .btn-primary {
       border-radius: 999px;
       padding: 10px 18px;
       border: none;
       background: linear-gradient(135deg, #14532d, #16a34a);
       color: #f9fafb;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       box-shadow: 0 0 16px rgba(22,163,74,0.8);
+      white-space: nowrap;
     }
 
-    .chat-input-row button:disabled {
-      opacity: 0.7;
-      box-shadow: none;
-      cursor: default;
+    .btn-primary:disabled { opacity: 0.7; box-shadow: none; cursor: default; }
+
+    .btn-outline {
+      border-radius: 999px;
+      padding: 8px 14px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background:#020617;
+      color:#f9fafb;
+      font-weight:700;
+      cursor:pointer;
+      white-space: nowrap;
     }
 
     /* GENERIC TEXTAREA */
@@ -319,9 +323,7 @@
       font-size: 0.95rem;
     }
 
-    .textarea::placeholder {
-      color: #9ca3af;
-    }
+    .textarea::placeholder { color: #9ca3af; }
 
     /* QUIZ OUTPUT */
     .quiz-output {
@@ -335,14 +337,29 @@
       font-size: 0.95rem;
     }
 
-    .quiz-output details {
-      margin: 4px 0 8px;
-    }
+    .quiz-output details { margin: 4px 0 8px; }
+    .quiz-output summary { cursor: pointer; color: #bbf7d0; font-size: 0.9rem; }
 
-    .quiz-output summary {
-      cursor: pointer;
-      color: #bbf7d0;
-      font-size: 0.9rem;
+    /* Planner layout */
+    .planner-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 12px;
+      min-height: 0;
+      flex: 1;
+    }
+    .panel {
+      border-radius: 18px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: #020617;
+      padding: 12px;
+      min-height: 0;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-top: 10px;
     }
 
     .footer {
@@ -363,21 +380,10 @@
       color: #bbf7d0;
       font-size: 1rem;
     }
-
-    .message.bot .bubble p {
-      margin: 4px 0;
-    }
-
+    .message.bot .bubble p { margin: 4px 0; }
     .message.bot .bubble ul,
-    .message.bot .bubble ol {
-      margin: 6px 0 6px 18px;
-      padding-left: 0;
-    }
-
-    .message.bot .bubble li {
-      margin-bottom: 3px;
-    }
-
+    .message.bot .bubble ol { margin: 6px 0 6px 18px; padding-left: 0; }
+    .message.bot .bubble li { margin-bottom: 3px; }
     .message.bot .bubble code {
       background: rgba(34,197,94,0.18);
       padding: 2px 4px;
@@ -385,7 +391,6 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 0.85rem;
     }
-
     .message.bot .bubble pre {
       background: rgba(15,118,110,0.22);
       padding: 8px 10px;
@@ -394,31 +399,8 @@
       margin: 6px 0;
     }
 
-    .message.bot .bubble table {
-      border-collapse: collapse;
-      margin: 6px 0;
-      width: 100%;
-      font-size: 0.9rem;
-    }
-
-    .message.bot .bubble th,
-    .message.bot .bubble td {
-      border: 1px solid rgba(55,65,81,0.9);
-      padding: 4px 6px;
-    }
-
-    .message.bot .bubble th {
-      background: rgba(15,23,42,0.9);
-      font-weight: 600;
-    }
-
-    @media (max-width: 640px) {
-      .app {
-        padding: 14px 12px 10px;
-      }
-      .header-title {
-        font-size: 1.5rem;
-      }
+    @media (max-width: 900px) {
+      .planner-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -432,31 +414,17 @@
     <p class="header-subtitle">One step at a time. One concept at a time.</p>
     <div class="header-meta">
       <span class="pill">Study support</span>
-      <span class="pill">Uses your notes as context</span>
-      <span class="pill">Planner + flashcards</span>
+      <span class="pill">Notes stay in your browser</span>
     </div>
   </header>
 
   <!-- NAVIGATION -->
   <nav class="nav">
-    <button id="tab-chat" class="active" onclick="showSection('chat')">
-      <span class="icon">𖠌</span><span>Chat</span>
-    </button>
-    <button id="tab-notes" onclick="showSection('notes')">
-      <span class="icon">📜</span><span>Notes</span>
-    </button>
-
-    <!-- NEW: Planner + Flashcards BEFORE Quiz -->
-    <button id="tab-plan" onclick="showSection('plan')">
-      <span class="icon">📅</span><span>Planner</span>
-    </button>
-    <button id="tab-cards" onclick="showSection('cards')">
-      <span class="icon">🃏</span><span>Flashcards</span>
-    </button>
-
-    <button id="tab-quiz" onclick="showSection('quiz')">
-      <span class="icon">✎ᝰ.</span><span>Quiz</span>
-    </button>
+    <button id="tab-chat" class="active" onclick="showSection('chat')"><span class="icon">𖠌</span><span>Chat</span></button>
+    <button id="tab-notes" onclick="showSection('notes')"><span class="icon">📜</span><span>Notes</span></button>
+    <button id="tab-quiz" onclick="showSection('quiz')"><span class="icon">✎ᝰ.</span><span>Quiz</span></button>
+    <button id="tab-flashcards" onclick="showSection('flashcards')"><span class="icon">🃏</span><span>Flashcards</span></button>
+    <button id="tab-planner" onclick="showSection('planner')"><span class="icon">🗓️</span><span>Planner</span></button>
   </nav>
 
   <!-- MAIN CONTENT -->
@@ -478,7 +446,7 @@
 
       <div class="chat-input-row">
         <textarea id="chat-input" rows="2" placeholder="Example: Can you explain stacks vs queues?"></textarea>
-        <button id="send-btn" onclick="sendMessage()">Send</button>
+        <button id="send-btn" class="btn-primary" onclick="sendMessage()">Send</button>
       </div>
     </section>
 
@@ -494,87 +462,6 @@
       ></textarea>
     </section>
 
-    <!-- NEW: PLANNER TAB -->
-    <section id="section-plan" class="section">
-      <h2>Study planner</h2>
-      <p class="help-text">Generate a study plan and track progress on a calendar (saved locally in this browser).</p>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:6px; margin-bottom:10px;">
-        <label style="font-size:0.9rem; color:#a7f3d0;">
-          Exam date:
-          <input id="exam-date" type="date"
-            style="margin-left:6px; width:160px; border-radius:999px; padding:6px 10px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb;" />
-        </label>
-
-        <label style="font-size:0.9rem; color:#a7f3d0;">
-          Days/week:
-          <input id="days-per-week" type="number" min="1" max="7" value="5"
-            style="margin-left:6px; width:70px; border-radius:999px; padding:6px 10px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb;" />
-        </label>
-
-        <label style="font-size:0.9rem; color:#a7f3d0;">
-          Min/day:
-          <input id="minutes-per-day" type="number" min="15" max="240" value="60"
-            style="margin-left:6px; width:80px; border-radius:999px; padding:6px 10px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb;" />
-        </label>
-
-        <button onclick="generatePlan()"
-          style="border-radius:999px; padding:8px 14px; background:linear-gradient(135deg,#14532d,#16a34a); color:white; border:none; font-weight:600;">
-          Generate plan
-        </button>
-
-        <button onclick="clearPlan()"
-          style="border-radius:999px; padding:8px 14px; border:1px solid rgba(34,197,94,0.6); background:#020617; color:#f9fafb; font-weight:600;">
-          Clear
-        </button>
-
-        <div id="plan-status" style="color:#a7f3d0; font-size:0.9rem;"></div>
-      </div>
-
-      <!-- Calendar Controls -->
-      <div style="display:flex; gap:10px; align-items:center; margin-bottom:8px; flex-wrap:wrap;">
-        <button onclick="prevMonth()" style="border-radius:999px; padding:6px 10px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb;">◀</button>
-        <div id="cal-title" style="font-weight:700; color:#ecfdf5;"></div>
-        <button onclick="nextMonth()" style="border-radius:999px; padding:6px 10px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb;">▶</button>
-      </div>
-
-      <!-- Calendar Grid -->
-      <div id="calendar" style="display:grid; grid-template-columns:repeat(7, 1fr); gap:8px;"></div>
-
-      <div id="day-detail" class="quiz-output" style="margin-top:10px;">
-        Click a date to see tasks.
-      </div>
-    </section>
-
-    <!-- NEW: FLASHCARDS TAB -->
-    <section id="section-cards" class="section">
-      <h2>Flashcards</h2>
-      <p class="help-text">Generate flashcards from your notes, then review what’s due (saved locally in this browser).</p>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:6px;">
-        <button onclick="generateFlashcardsFromNotes()"
-          style="border-radius:999px; padding:8px 14px; background:linear-gradient(135deg,#14532d,#16a34a); color:white; border:none; font-weight:600;">
-          Generate from notes
-        </button>
-
-        <button onclick="startReview()"
-          style="border-radius:999px; padding:8px 14px; border:1px solid rgba(34,197,94,0.6); background:#020617; color:#f9fafb; font-weight:600;">
-          Review due
-        </button>
-
-        <button onclick="resetCards()"
-          style="border-radius:999px; padding:8px 14px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb; font-weight:600;">
-          Reset
-        </button>
-
-        <div id="cards-status" style="color:#a7f3d0; font-size:0.9rem;"></div>
-      </div>
-
-      <div id="card-box" class="quiz-output" style="margin-top:10px;">
-        Generate flashcards to begin.
-      </div>
-    </section>
-
     <!-- QUIZ TAB -->
     <section id="section-quiz" class="section">
       <h2>Quiz generator</h2>
@@ -588,29 +475,11 @@
           min="1"
           max="15"
           value="5"
-          style="
-            width:70px;
-            border-radius:999px;
-            padding:4px 6px;
-            border:1px solid rgba(55,65,81,0.9);
-            background:#020617;
-            color:#f9fafb;
-          "
+          style="width:70px;border-radius:999px;padding:4px 6px;border:1px solid rgba(55,65,81,0.9);background:#020617;color:#f9fafb;"
         />
       </div>
 
-      <button
-        onclick="generateQuiz()"
-        style="
-          border-radius:999px;
-          padding:8px 14px;
-          background:linear-gradient(135deg,#14532d,#16a34a);
-          color:white;
-          border:none;
-          font-weight:500;
-          margin-bottom: 8px;
-        "
-      >
+      <button class="btn-primary" onclick="generateQuiz()" style="padding:8px 14px; font-weight:600; margin-bottom:8px;">
         Generate quiz
       </button>
 
@@ -619,32 +488,128 @@
       </div>
     </section>
 
+    <!-- FLASHCARDS TAB -->
+    <section id="section-flashcards" class="section">
+      <h2>Flashcards</h2>
+      <p class="help-text">Generate Quizlet-style flashcards from your notes.</p>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+        <div style="font-size:0.9rem; color:#a7f3d0;">
+          Cards:
+          <input id="card-count" type="number" min="4" max="50" value="12"
+                 style="width:72px;border-radius:999px;padding:4px 6px;border:1px solid rgba(55,65,81,0.9);background:#020617;color:#f9fafb;" />
+        </div>
+
+        <button class="btn-primary" onclick="generateFlashcards()" style="padding:8px 14px;">
+          Generate from notes
+        </button>
+
+        <button class="btn-outline" onclick="startDeckMode()">
+          Deck mode
+        </button>
+
+        <button class="btn-outline" onclick="clearFlashcards()">
+          Clear deck
+        </button>
+
+        <div id="cards-status" style="font-size:0.85rem;color:#a7f3d0;"></div>
+      </div>
+
+      <div id="card-box" class="panel" style="min-height:240px;"></div>
+    </section>
+
+    <!-- PLANNER TAB -->
+    <section id="section-planner" class="section">
+      <div>
+        <h2>Study planner</h2>
+        <p class="help-text">Turn your notes into a daily plan with a calendar + progress tracking.</p>
+      </div>
+
+      <div class="planner-grid">
+        <!-- Left: Calendar -->
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+            <div>
+              <div style="font-weight:800; color:#bbf7d0;">Calendar</div>
+              <div class="hint" style="margin:0;">Green days have tasks.</div>
+            </div>
+
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <button class="btn-outline" onclick="prevMonth()">◀</button>
+              <div id="cal-title" style="min-width:170px; text-align:center; color:#f9fafb; font-weight:800;"></div>
+              <button class="btn-outline" onclick="nextMonth()">▶</button>
+            </div>
+          </div>
+
+          <div id="calendar" class="calendar"></div>
+        </div>
+
+        <!-- Right: Controls + Day Details -->
+        <div class="panel">
+          <div style="font-weight:800; color:#bbf7d0;">Plan settings</div>
+
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+            <label style="font-size:0.9rem; color:#a7f3d0;">
+              Exam / deadline date:
+              <input id="exam-date" type="date"
+                     style="width:100%; margin-top:6px; border-radius:12px; padding:10px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb;">
+            </label>
+
+            <div style="display:flex; gap:10px;">
+              <label style="flex:1; font-size:0.9rem; color:#a7f3d0;">
+                Days/week
+                <input id="days-per-week" type="number" min="3" max="7" value="5"
+                       style="width:100%; margin-top:6px; border-radius:12px; padding:10px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb;">
+              </label>
+              <label style="flex:1; font-size:0.9rem; color:#a7f3d0;">
+                Minutes/day
+                <input id="minutes-per-day" type="number" min="15" max="240" value="60"
+                       style="width:100%; margin-top:6px; border-radius:12px; padding:10px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb;">
+              </label>
+            </div>
+
+            <button class="btn-primary" onclick="generatePlan()" style="padding:10px 14px;">
+              Generate plan
+            </button>
+
+            <button class="btn-outline" onclick="clearPlan()">
+              Clear plan
+            </button>
+
+            <div id="plan-status" style="color:#a7f3d0; font-size:0.9rem;"></div>
+
+            <!-- Progress bar -->
+            <div style="margin-top:6px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#a7f3d0; margin-bottom:6px;">
+                <span id="progress-text">Progress: 0%</span>
+                <span id="progress-counts">0/0</span>
+              </div>
+              <div style="height:10px; border-radius:999px; background:#0b1220; border:1px solid rgba(55,65,81,0.9); overflow:hidden;">
+                <div id="progress-bar" style="height:100%; width:0%; background:linear-gradient(135deg,#14532d,#16a34a);"></div>
+              </div>
+            </div>
+
+            <div style="border-top:1px solid rgba(55,65,81,0.7); padding-top:10px;">
+              <div style="font-weight:800; color:#bbf7d0;">Selected day</div>
+              <div id="day-detail" class="hint" style="margin-top:6px;">Click a date to see tasks.</div>
+              <div id="task-list" style="margin-top:8px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 
   <!-- FOOTER -->
   <footer class="footer">
-    AWS Lambda + OpenAI • Notes / Planner / Flashcards saved locally in your browser
+    AWS Lambda + OpenAI • Notes saved locally in your browser
   </footer>
 </div>
 
 <script>
   // ===== CONFIG: Lambda URL =====
   const API_URL = "https://6mys7jmm4mwac4p46io3puwyca0mqgfu.lambda-url.us-east-2.on.aws";
-
-  // ===== STATE =====
-  let messages = [
-    { role: "bot", text: "Hi! I’m your AI tutor. What topic are you studying today?" }
-  ];
-
-  // ===== SECTION SWITCHING =====
-  function showSection(name) {
-    ["chat", "notes", "plan", "cards", "quiz"].forEach(s => {
-      document.getElementById("section-" + s).classList.remove("active");
-      document.getElementById("tab-" + s).classList.remove("active");
-    });
-    document.getElementById("section-" + name).classList.add("active");
-    document.getElementById("tab-" + name).classList.add("active");
-  }
 
   // ===== UTIL =====
   function escapeHtml(str) {
@@ -655,8 +620,96 @@
       .replace(/"/g,"&quot;");
   }
 
+  function monthName(m) {
+    return ["January","February","March","April","May","June","July","August","September","October","November","December"][m];
+  }
+
+  // ===== SECTION SWITCHING =====
+  function showSection(name) {
+    ["chat", "notes", "quiz", "flashcards", "planner"].forEach(s => {
+      document.getElementById("section-" + s).classList.remove("active");
+      document.getElementById("tab-" + s).classList.remove("active");
+    });
+    document.getElementById("section-" + name).classList.add("active");
+    document.getElementById("tab-" + name).classList.add("active");
+
+    if (name === "planner") {
+      renderCalendar();
+      setPlanStatus();
+    }
+    if (name === "flashcards") {
+      updateCardsStatus();
+      if (!document.getElementById("card-box").innerHTML.trim()) {
+        startDeckMode();
+      }
+    }
+  }
+
+  // ===== LOCAL STORAGE FOR NOTES =====
+  const NOTES_KEY = "aiTutorNotes";
+
+  function loadNotesFromStorage() {
+    try {
+      const saved = localStorage.getItem(NOTES_KEY);
+      if (saved) document.getElementById("notes-textarea").value = saved;
+    } catch (e) {}
+  }
+
+  function saveNotesToStorage() {
+    const notes = document.getElementById("notes-textarea").value;
+    try { localStorage.setItem(NOTES_KEY, notes); } catch (e) {}
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    loadNotesFromStorage();
+    document.getElementById("notes-textarea").addEventListener("input", saveNotesToStorage);
+    renderMessages();
+    updateCardsStatus();
+    renderCalendar();
+    setPlanStatus();
+  });
+
+  // ===== API HELPERS =====
+  async function postJSON(payload) {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    // Always parse safely (Lambda sometimes returns text on errors)
+    const text = await res.text();
+    let data = {};
+    try { data = JSON.parse(text); } catch {}
+
+    if (!res.ok) {
+      const msg = (data && data.error) ? data.error : (text || `HTTP ${res.status}`);
+      throw new Error(msg);
+    }
+
+    return data;
+  }
+
+  async function apiChat(message) {
+    return await postJSON({ message });
+  }
+
+  async function apiFlashcardsGenerate(notes, count) {
+    return await postJSON({ action: "flashcards_generate", notes, count });
+  }
+
+  async function apiPlanGenerate(notes, examDate, daysPerWeek, minutesPerDay) {
+    return await postJSON({ action: "plan_generate", notes, examDate, daysPerWeek, minutesPerDay });
+  }
+
+  // ===== CHAT =====
+  let messages = [
+    { role: "bot", text: "Hi! I’m your AI tutor. What topic are you studying today?" }
+  ];
+
   function renderMessages() {
     const box = document.getElementById("chat-box");
+    if (!box) return;
     box.innerHTML = "";
 
     messages.forEach(m => {
@@ -675,241 +728,364 @@
       label.textContent = m.role === "user" ? "You" : "Tutor";
 
       const text = document.createElement("div");
-
-      if (m.role === "bot") {
-        // Render tutor responses as Markdown
-        text.innerHTML = marked.parse(m.text || "");
-      } else {
-        // Keep user messages escaped (plain text)
-        text.innerHTML = escapeHtml(m.text || "");
-      }
+      if (m.role === "bot") text.innerHTML = marked.parse(m.text || "");
+      else text.innerHTML = escapeHtml(m.text || "");
 
       bubble.appendChild(label);
       bubble.appendChild(text);
-
       msg.appendChild(avatar);
       msg.appendChild(bubble);
-
       box.appendChild(msg);
     });
 
     box.scrollTop = box.scrollHeight;
   }
 
-  renderMessages();
+  async function sendMessage() {
+    const input = document.getElementById("chat-input");
+    const btn = document.getElementById("send-btn");
+    const typing = document.getElementById("typing-indicator");
 
-  // ===== LOCAL STORAGE FOR NOTES =====
-  const NOTES_KEY = "aiTutorNotes";
+    const text = input.value.trim();
+    if (!text) return;
 
-  function loadNotesFromStorage() {
+    messages.push({ role: "user", text });
+    renderMessages();
+    input.value = "";
+
+    const notes = document.getElementById("notes-textarea").value.trim();
+    let finalPrompt = text;
+
+    if (notes) {
+      finalPrompt =
+        "You are an AI tutor. Use these study notes when helpful, and explain things clearly for a college student.\n\n" +
+        "Study notes:\n" + notes +
+        "\n\nStudent question:\n" + text;
+    }
+
+    btn.disabled = true;
+    typing.style.display = "flex";
+
     try {
-      const saved = localStorage.getItem(NOTES_KEY);
-      if (saved) {
-        document.getElementById("notes-textarea").value = saved;
+      const data = await apiChat(finalPrompt);
+      const reply = data.reply || "I couldn’t generate a response.";
+      messages.push({ role: "bot", text: reply });
+      renderMessages();
+    } catch (e) {
+      messages.push({ role: "bot", text: "Server error: " + (e.message || "please try again.") });
+      renderMessages();
+    } finally {
+      typing.style.display = "none";
+      btn.disabled = false;
+    }
+  }
+
+  document.getElementById("chat-input").addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // ===== QUIZ =====
+  async function generateQuiz() {
+    const notes = document.getElementById("notes-textarea").value.trim();
+    const count = Number(document.getElementById("quiz-count").value) || 5;
+    const out = document.getElementById("quiz-output");
+
+    if (!notes) { out.textContent = "Please paste notes first."; return; }
+    out.textContent = "Generating quiz…";
+
+    const prompt =
+      `Create ${count} multiple-choice questions (A–D options) from the notes below.\n` +
+      `Use this exact format for each question:\n\n` +
+      `Q1: question text\n` +
+      `A) option\nB) option\nC) option\nD) option\n` +
+      `Answer: C\n` +
+      `Explanation: short explanation.\n\n` +
+      `Do not include the correct answer anywhere except on the line starting with "Answer:".\n\n` +
+      `Notes:\n${notes}`;
+
+    try {
+      const data = await apiChat(prompt);
+      const raw = data.reply || "Could not generate quiz.";
+      const lines = raw.split("\n");
+
+      let html = "";
+      let i = 0;
+      while (i < lines.length) {
+        const line = lines[i];
+        const trimmed = line.trim();
+        const lower = trimmed.toLowerCase();
+
+        if (lower.startsWith("answer:")) {
+          const answerOnly = trimmed.slice("Answer:".length).trim();
+          let explanationLine = "";
+          if (i + 1 < lines.length) {
+            const next = lines[i + 1].trim();
+            if (next.toLowerCase().startsWith("explanation:")) {
+              explanationLine = next;
+              i++;
+            }
+          }
+          const answerEsc = escapeHtml(answerOnly);
+          const explEsc = explanationLine ? escapeHtml(explanationLine) : "";
+
+          html += `<details><summary>Show answer</summary><div>Answer: ${answerEsc}</div>`;
+          if (explEsc) html += `<div>${explEsc}</div>`;
+          html += `</details>`;
+        } else {
+          html += escapeHtml(line) + "<br>";
+        }
+        i++;
       }
+
+      out.innerHTML = html || "Could not generate quiz.";
     } catch (e) {
-      console.warn("Could not read notes from localStorage", e);
+      out.textContent = "Error: " + (e.message || "contacting server.");
     }
   }
 
-  function saveNotesToStorage() {
-    const notes = document.getElementById("notes-textarea").value;
-    try {
-      localStorage.setItem(NOTES_KEY, notes);
-    } catch (e) {
-      console.warn("Could not save notes to localStorage", e);
-    }
-  }
-
-  // ==============================
-  // FLASHCARDS (localStorage + review)
-  // Requires Lambda action: flashcards_generate
-  // ==============================
-  const FLASHCARDS_KEY = "aiTutorFlashcards";
+  // ===== FLASHCARDS (Quizlet-style deck) =====
+  const CARDS_KEY = "aiTutorFlashcards";
+  let deckIndex = 0;
+  let deckCards = [];
+  let deckShowingBack = false;
 
   function loadCards() {
-    try { return JSON.parse(localStorage.getItem(FLASHCARDS_KEY) || "[]"); }
+    try { return JSON.parse(localStorage.getItem(CARDS_KEY) || "[]"); }
     catch { return []; }
   }
-  function saveCards(cards) { localStorage.setItem(FLASHCARDS_KEY, JSON.stringify(cards)); }
+
+  function saveCards(cards) {
+    try { localStorage.setItem(CARDS_KEY, JSON.stringify(cards || [])); } catch (e) {}
+  }
 
   function updateCardsStatus() {
-    const cards = loadCards();
-    const now = Date.now();
-    const due = cards.filter(c => (c.dueAt || 0) <= now).length;
     const el = document.getElementById("cards-status");
-    if (el) el.textContent = `${cards.length} total • ${due} due`;
+    if (!el) return;
+    const cards = loadCards();
+    el.textContent = cards.length ? `${cards.length} cards saved` : "No cards yet";
   }
 
-  async function apiFlashcardsGenerate(notes, count=12) {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "flashcards_generate", notes, count })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Flashcards request failed");
-    return data.cards || [];
-  }
-
-  function initCard(raw) {
-    return {
-      id: (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
-      front: raw.front || "",
-      back: raw.back || "",
-      topic: raw.topic || "",
-      dueAt: Date.now(),
-      intervalDays: 1,
-      ease: 2.5,
-      reps: 0
-    };
-  }
-
-  async function generateFlashcardsFromNotes() {
+  async function generateFlashcards() {
     const notes = document.getElementById("notes-textarea").value.trim();
+    const count = Number(document.getElementById("card-count").value) || 12;
     const box = document.getElementById("card-box");
-    if (!notes) { box.textContent = "Paste notes first (Notes tab), then generate."; return; }
+
+    if (!notes) {
+      box.textContent = "Paste notes first (Notes tab), then generate flashcards.";
+      return;
+    }
 
     box.textContent = "Generating flashcards…";
     try {
-      const newCardsRaw = await apiFlashcardsGenerate(notes, 12);
-      const existing = loadCards();
-      const newCards = newCardsRaw.map(initCard);
-      saveCards(existing.concat(newCards));
+      const data = await apiFlashcardsGenerate(notes, count);
+      const cards = (data.cards || []).map(c => ({
+        front: String(c.front || ""),
+        back: String(c.back || ""),
+        topic: String(c.topic || "Flashcards")
+      })).filter(c => c.front && c.back);
+
+      saveCards(cards);
       updateCardsStatus();
-      box.textContent = `Created ${newCards.length} cards. Click “Review due” to start.`;
+      startDeckMode();
     } catch (e) {
-      box.textContent = `Error: ${e.message}`;
+      box.textContent = "Error: " + (e.message || "Failed to generate flashcards.");
     }
   }
 
-  let currentCardId = null;
-
-  function getNextDueCard() {
-    const cards = loadCards();
-    const now = Date.now();
-    const due = cards.filter(c => (c.dueAt || 0) <= now);
-    due.sort((a,b) => (a.dueAt||0) - (b.dueAt||0));
-    return due[0] || null;
+  function clearFlashcards() {
+    saveCards([]);
+    updateCardsStatus();
+    document.getElementById("card-box").textContent = "Deck cleared.";
   }
 
-  function renderCard(card) {
+  function startDeckMode() {
+    deckCards = loadCards();
+    deckIndex = 0;
+    deckShowingBack = false;
+    updateCardsStatus();
+    renderDeckCard();
+  }
+
+  function renderDeckCard() {
     const box = document.getElementById("card-box");
-    if (!card) {
-      box.textContent = "No cards due right now. Generate more or come back later.";
-      currentCardId = null;
+    if (!deckCards.length) {
+      box.textContent = "No flashcards yet. Click “Generate from notes” first.";
       return;
     }
-    currentCardId = card.id;
+
+    const card = deckCards[deckIndex];
+    const faceText = deckShowingBack ? card.back : card.front;
+    const faceLabel = deckShowingBack ? "Answer" : "Question";
 
     box.innerHTML = `
-      <div style="font-weight:700; color:#bbf7d0; margin-bottom:6px;">${escapeHtml(card.topic || "Flashcard")}</div>
-      <div style="margin-bottom:10px;"><b>Q:</b> ${escapeHtml(card.front)}</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div style="font-weight:800; color:#bbf7d0;">${escapeHtml(card.topic || "Flashcards")}</div>
+        <div style="font-size:0.85rem; color:#a7f3d0;">${deckIndex + 1} / ${deckCards.length}</div>
+      </div>
 
-      <details style="margin-bottom:12px;">
-        <summary>Show answer</summary>
-        <div style="margin-top:8px;"><b>A:</b> ${escapeHtml(card.back)}</div>
-      </details>
+      <div
+        style="
+          border-radius:18px;
+          border:1px solid rgba(55,65,81,0.9);
+          background: rgba(15, 23, 42, 0.98);
+          padding:18px;
+          min-height:160px;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          cursor:pointer;
+          box-shadow: 0 0 18px rgba(22,163,74,0.2);
+        "
+        onclick="flipDeckCard()"
+      >
+        <div style="font-size:0.75rem; letter-spacing:0.06em; text-transform:uppercase; opacity:0.85; margin-bottom:8px; color:#a7f3d0;">
+          ${faceLabel}
+        </div>
+        <div style="font-size:1.05rem; line-height:1.5; color:#f9fafb;">
+          ${escapeHtml(faceText)}
+        </div>
+        <div style="margin-top:14px; font-size:0.85rem; color:#9ca3af;">
+          Click card to flip
+        </div>
+      </div>
 
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button onclick="rateCard('again')" style="border-radius:999px; padding:8px 12px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb; font-weight:600;">Again</button>
-        <button onclick="rateCard('hard')"  style="border-radius:999px; padding:8px 12px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb; font-weight:600;">Hard</button>
-        <button onclick="rateCard('good')"  style="border-radius:999px; padding:8px 12px; border:1px solid rgba(55,65,81,0.9); background:#020617; color:#f9fafb; font-weight:600;">Good</button>
-        <button onclick="rateCard('easy')"  style="border-radius:999px; padding:8px 12px; border:none; background:linear-gradient(135deg,#14532d,#16a34a); color:white; font-weight:700;">Easy</button>
+      <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+        <button class="btn-outline" onclick="prevDeckCard()">◀ Prev</button>
+        <button class="btn-outline" onclick="flipDeckCard()">Flip</button>
+        <button class="btn-primary" style="padding:8px 14px;" onclick="nextDeckCard()">Next ▶</button>
+        <button class="btn-outline" onclick="shuffleDeck()">Shuffle</button>
       </div>
     `;
   }
 
-  function startReview() {
-    updateCardsStatus();
-    renderCard(getNextDueCard());
+  function flipDeckCard() {
+    deckShowingBack = !deckShowingBack;
+    renderDeckCard();
   }
 
-  function schedule(card, rating) {
-    let ease = Number(card.ease || 2.5);
-    let interval = Number(card.intervalDays || 1);
-    let reps = Number(card.reps || 0);
-    const now = Date.now();
+  function nextDeckCard() {
+    if (!deckCards.length) return;
+    deckIndex = (deckIndex + 1) % deckCards.length;
+    deckShowingBack = false;
+    renderDeckCard();
+  }
 
-    if (rating === "again") {
-      reps = Math.max(0, reps - 1);
-      card.dueAt = now + 10 * 60 * 1000; // 10 minutes
-      card.ease = Math.max(1.3, ease - 0.2);
-      card.intervalDays = 1;
-      card.reps = reps;
-      return;
+  function prevDeckCard() {
+    if (!deckCards.length) return;
+    deckIndex = (deckIndex - 1 + deckCards.length) % deckCards.length;
+    deckShowingBack = false;
+    renderDeckCard();
+  }
+
+  function shuffleDeck() {
+    for (let i = deckCards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deckCards[i], deckCards[j]] = [deckCards[j], deckCards[i]];
     }
-
-    if (rating === "hard") {
-      ease = Math.max(1.3, ease - 0.15);
-      interval = Math.max(1, Math.round(interval * 1.2));
-    } else if (rating === "good") {
-      interval = Math.max(1, Math.round(interval * ease));
-    } else if (rating === "easy") {
-      ease = ease + 0.1;
-      interval = Math.max(2, Math.round(interval * (ease + 0.15)));
-    }
-
-    reps += 1;
-    card.ease = ease;
-    card.intervalDays = interval;
-    card.reps = reps;
-    card.dueAt = now + interval * 24 * 60 * 60 * 1000;
+    deckIndex = 0;
+    deckShowingBack = false;
+    renderDeckCard();
   }
 
-  function rateCard(rating) {
-    const cards = loadCards();
-    const idx = cards.findIndex(c => c.id === currentCardId);
-    if (idx === -1) return;
-
-    schedule(cards[idx], rating);
-    saveCards(cards);
-    updateCardsStatus();
-    renderCard(getNextDueCard());
-  }
-
-  function resetCards() {
-    localStorage.removeItem(FLASHCARDS_KEY);
-    currentCardId = null;
-    updateCardsStatus();
-    document.getElementById("card-box").textContent = "Flashcards cleared. Generate again to start.";
-  }
-
-  // ==============================
-  // PLANNER (calendar + progress)
-  // Requires Lambda action: plan_generate
-  // ==============================
+  // ===== PLANNER =====
   const PLAN_KEY = "aiTutorPlan";
-  const PLAN_DONE_KEY = "aiTutorPlanDone"; // map: date -> {taskIndex:true/false}
+  const PLAN_DONE_KEY = "aiTutorPlanDone";
+
   let calMonth = new Date().getMonth();
   let calYear = new Date().getFullYear();
+  let selectedDateStr = null;
 
   function loadPlan() {
     try { return JSON.parse(localStorage.getItem(PLAN_KEY) || "[]"); }
     catch { return []; }
   }
-  function savePlan(plan) { localStorage.setItem(PLAN_KEY, JSON.stringify(plan)); }
+
+  function savePlan(plan) {
+    try { localStorage.setItem(PLAN_KEY, JSON.stringify(plan || [])); } catch {}
+  }
 
   function loadDone() {
     try { return JSON.parse(localStorage.getItem(PLAN_DONE_KEY) || "{}"); }
     catch { return {}; }
   }
-  function saveDone(done) { localStorage.setItem(PLAN_DONE_KEY, JSON.stringify(done)); }
 
-  async function apiPlanGenerate(notes, examDate, daysPerWeek, minutesPerDay) {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "plan_generate", notes, examDate, daysPerWeek, minutesPerDay })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Plan request failed");
-    return data.plan || [];
+  function saveDone(done) {
+    try { localStorage.setItem(PLAN_DONE_KEY, JSON.stringify(done || {})); } catch {}
+  }
+
+  function clearPlan() {
+    localStorage.removeItem(PLAN_KEY);
+    localStorage.removeItem(PLAN_DONE_KEY);
+    selectedDateStr = null;
+    document.getElementById("day-detail").textContent = "Plan cleared.";
+    document.getElementById("task-list").innerHTML = "";
+    renderCalendar();
+    setPlanStatus();
+  }
+
+  function prevMonth() {
+    calMonth--;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+  }
+
+  function nextMonth() {
+    calMonth++;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+  }
+
+  async function generatePlan() {
+    const notes = document.getElementById("notes-textarea").value.trim();
+    const examDate = document.getElementById("exam-date").value;
+    const daysPerWeek = Number(document.getElementById("days-per-week").value) || 5;
+    const minutesPerDay = Number(document.getElementById("minutes-per-day").value) || 60;
+
+    const detail = document.getElementById("day-detail");
+    const taskList = document.getElementById("task-list");
+
+    if (!notes) { detail.textContent = "Paste notes first (Notes tab), then generate a plan."; return; }
+    if (!examDate) { detail.textContent = "Pick an exam date first."; return; }
+
+    detail.textContent = "Generating plan…";
+    taskList.innerHTML = "";
+
+    try {
+      const data = await apiPlanGenerate(notes, examDate, daysPerWeek, minutesPerDay);
+      const plan = (data.plan || []).map(d => ({
+        date: String(d.date || ""),
+        tasks: Array.isArray(d.tasks) ? d.tasks.map(String) : [],
+        estimatedMinutes: Number(d.estimatedMinutes || minutesPerDay)
+      })).filter(d => d.date);
+
+      savePlan(plan);
+      localStorage.removeItem(PLAN_DONE_KEY);
+
+      // Jump to first plan date so tasks are visible
+      if (plan.length) {
+        const firstDate = new Date(plan[0].date + "T00:00:00");
+        calMonth = firstDate.getMonth();
+        calYear = firstDate.getFullYear();
+        selectedDateStr = plan[0].date;
+      }
+
+      renderCalendar();
+      setPlanStatus();
+      if (selectedDateStr) openDay(selectedDateStr);
+
+      detail.textContent = "Plan created. Click a date to see tasks.";
+    } catch (e) {
+      detail.textContent = "Error: " + (e.message || "Failed to generate plan.");
+    }
   }
 
   function setPlanStatus() {
     const plan = loadPlan();
     const done = loadDone();
+
     let totalTasks = 0;
     let doneTasks = 0;
 
@@ -921,55 +1097,15 @@
     });
 
     const el = document.getElementById("plan-status");
-    if (!el) return;
-    el.textContent = plan.length ? `${doneTasks}/${totalTasks} tasks completed` : "No plan yet. Generate one.";
-  }
+    if (el) el.textContent = plan.length ? `${doneTasks}/${totalTasks} tasks completed` : "No plan yet. Generate one.";
 
-  async function generatePlan() {
-    const notes = document.getElementById("notes-textarea").value.trim();
-    const examDate = document.getElementById("exam-date").value;
-    const daysPerWeek = Number(document.getElementById("days-per-week").value) || 5;
-    const minutesPerDay = Number(document.getElementById("minutes-per-day").value) || 60;
-
-    const detail = document.getElementById("day-detail");
-    if (!notes) { detail.textContent = "Paste notes first (Notes tab), then generate a plan."; return; }
-    if (!examDate) { detail.textContent = "Pick an exam date first."; return; }
-
-    detail.textContent = "Generating plan…";
-    try {
-      const plan = await apiPlanGenerate(notes, examDate, daysPerWeek, minutesPerDay);
-      savePlan(plan);
-      localStorage.removeItem(PLAN_DONE_KEY); // reset completion when new plan made
-      setPlanStatus();
-      renderCalendar();
-      detail.textContent = "Plan created. Click a date to see tasks.";
-    } catch (e) {
-      detail.textContent = `Error: ${e.message}`;
-    }
-  }
-
-  function clearPlan() {
-    localStorage.removeItem(PLAN_KEY);
-    localStorage.removeItem(PLAN_DONE_KEY);
-    setPlanStatus();
-    renderCalendar();
-    document.getElementById("day-detail").textContent = "Cleared. Generate a plan to begin.";
-  }
-
-  function monthName(m) {
-    return ["January","February","March","April","May","June","July","August","September","October","November","December"][m];
-  }
-
-  function prevMonth() {
-    calMonth -= 1;
-    if (calMonth < 0) { calMonth = 11; calYear -= 1; }
-    renderCalendar();
-  }
-
-  function nextMonth() {
-    calMonth += 1;
-    if (calMonth > 11) { calMonth = 0; calYear += 1; }
-    renderCalendar();
+    const pct = totalTasks ? Math.round((doneTasks / totalTasks) * 100) : 0;
+    const bar = document.getElementById("progress-bar");
+    const txt = document.getElementById("progress-text");
+    const counts = document.getElementById("progress-counts");
+    if (bar) bar.style.width = pct + "%";
+    if (txt) txt.textContent = `Progress: ${pct}%`;
+    if (counts) counts.textContent = `${doneTasks}/${totalTasks}`;
   }
 
   function renderCalendar() {
@@ -1004,7 +1140,7 @@
     // blanks
     for (let i = 0; i < startDay; i++) {
       const blank = document.createElement("div");
-      blank.style.minHeight = "70px";
+      blank.style.minHeight = "78px";
       cal.appendChild(blank);
     }
 
@@ -1016,8 +1152,8 @@
       const dateStr = `${yyyy}-${mm}-${dd}`;
 
       const cell = document.createElement("button");
-      cell.onclick = () => openDay(dateStr);
-      cell.style.minHeight = "70px";
+      cell.onclick = () => { selectedDateStr = dateStr; openDay(dateStr); renderCalendar(); };
+      cell.style.minHeight = "78px";
       cell.style.borderRadius = "14px";
       cell.style.border = "1px solid rgba(55,65,81,0.9)";
       cell.style.background = "#020617";
@@ -1026,11 +1162,16 @@
       cell.style.textAlign = "left";
       cell.style.cursor = "pointer";
 
+      if (selectedDateStr === dateStr) {
+        cell.style.outline = "2px solid rgba(34,197,94,0.9)";
+        cell.style.boxShadow = "0 0 14px rgba(22,163,74,0.55)";
+      }
+
       const top = document.createElement("div");
       top.style.display = "flex";
       top.style.justifyContent = "space-between";
       top.style.alignItems = "center";
-      top.innerHTML = `<span style="font-weight:700;">${day}</span>`;
+      top.innerHTML = `<span style="font-weight:800;">${day}</span>`;
       cell.appendChild(top);
 
       const planDay = planByDate[dateStr];
@@ -1038,12 +1179,24 @@
         const tasks = planDay.tasks || [];
         const dmap = done[dateStr] || {};
         const completed = tasks.filter((_, i) => dmap[i]).length;
+
         const badge = document.createElement("div");
         badge.style.marginTop = "6px";
         badge.style.fontSize = "0.8rem";
         badge.style.color = "#bbf7d0";
         badge.textContent = `${completed}/${tasks.length} done`;
         cell.appendChild(badge);
+
+        const preview = document.createElement("div");
+        preview.style.marginTop = "6px";
+        preview.style.fontSize = "0.78rem";
+        preview.style.color = "#e5e7eb";
+        preview.style.opacity = "0.9";
+        const firstTask = tasks[0] || "";
+        preview.textContent = firstTask ? (firstTask.length > 38 ? firstTask.slice(0, 38) + "…" : firstTask) : "";
+        cell.appendChild(preview);
+
+        cell.style.border = "1px solid rgba(34,197,94,0.55)";
       } else {
         const none = document.createElement("div");
         none.style.marginTop = "6px";
@@ -1063,198 +1216,63 @@
     const plan = loadPlan();
     const day = plan.find(d => d.date === dateStr);
     const detail = document.getElementById("day-detail");
-    const done = loadDone();
-    const dmap = done[dateStr] || {};
+    const list = document.getElementById("task-list");
 
     if (!day) {
-      detail.innerHTML = `<div style="font-weight:800; color:#bbf7d0; margin-bottom:6px;">${dateStr}</div>No tasks scheduled.`;
+      detail.textContent = `${dateStr}: No tasks scheduled.`;
+      list.innerHTML = "";
       return;
     }
 
+    const done = loadDone();
+    const dmap = done[dateStr] || {};
     const tasks = day.tasks || [];
-    const est = day.estimatedMinutes || "";
 
-    detail.innerHTML = `
-      <div style="font-weight:900; color:#bbf7d0; margin-bottom:6px;">${dateStr}</div>
-      <div style="color:#a7f3d0; font-size:0.9rem; margin-bottom:8px;">Estimated: ${escapeHtml(String(est))} minutes</div>
-      <div id="task-list"></div>
-    `;
+    detail.textContent = `${dateStr} • ${tasks.length} task(s) • ~${day.estimatedMinutes || 60} min`;
 
-    const list = document.getElementById("task-list");
+    const wrap = document.createElement("div");
+    wrap.style.display = "flex";
+    wrap.style.flexDirection = "column";
+    wrap.style.gap = "8px";
+
     tasks.forEach((t, i) => {
       const row = document.createElement("label");
       row.style.display = "flex";
       row.style.gap = "10px";
       row.style.alignItems = "flex-start";
-      row.style.marginBottom = "8px";
+      row.style.padding = "10px";
+      row.style.borderRadius = "14px";
+      row.style.border = "1px solid rgba(55,65,81,0.9)";
+      row.style.background = "rgba(15, 23, 42, 0.98)";
       row.style.cursor = "pointer";
 
       const cb = document.createElement("input");
       cb.type = "checkbox";
       cb.checked = !!dmap[i];
+      cb.style.marginTop = "3px";
       cb.onchange = () => {
-        const done2 = loadDone();
-        done2[dateStr] = done2[dateStr] || {};
-        done2[dateStr][i] = cb.checked;
-        saveDone(done2);
-        setPlanStatus();
+        const allDone = loadDone();
+        if (!allDone[dateStr]) allDone[dateStr] = {};
+        allDone[dateStr][i] = cb.checked;
+        saveDone(allDone);
         renderCalendar();
-        openDay(dateStr);
+        setPlanStatus();
       };
 
       const txt = document.createElement("div");
-      txt.innerHTML = escapeHtml(t);
+      txt.style.color = "#f9fafb";
+      txt.style.lineHeight = "1.35";
+      txt.textContent = t;
 
       row.appendChild(cb);
       row.appendChild(txt);
-      list.appendChild(row);
+      wrap.appendChild(row);
     });
-  }
 
-  function initPlannerUI() {
-    const now = new Date();
-    calMonth = now.getMonth();
-    calYear = now.getFullYear();
-    renderCalendar();
+    list.innerHTML = "";
+    list.appendChild(wrap);
+
     setPlanStatus();
-  }
-
-  // ===== DOM READY =====
-  window.addEventListener("DOMContentLoaded", () => {
-    loadNotesFromStorage();
-    document
-      .getElementById("notes-textarea")
-      .addEventListener("input", saveNotesToStorage);
-
-    updateCardsStatus();
-    initPlannerUI();
-  });
-
-  // ===== CHAT =====
-  async function sendMessage() {
-    const input = document.getElementById("chat-input");
-    const btn = document.getElementById("send-btn");
-    const typing = document.getElementById("typing-indicator");
-
-    const text = input.value.trim();
-    if (!text) return;
-
-    messages.push({ role: "user", text });
-    renderMessages();
-    input.value = "";
-
-    const notes = document.getElementById("notes-textarea").value.trim();
-    let finalPrompt = text;
-
-    if (notes) {
-      finalPrompt =
-        "You are an AI tutor. Use these study notes when helpful, and explain things clearly for a college student.\n\n" +
-        "Study notes:\n" + notes +
-        "\n\nStudent question:\n" + text;
-    }
-
-    btn.disabled = true;
-    typing.style.display = "flex";
-
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: finalPrompt })
-      });
-
-      const data = await res.json();
-      const reply = data.reply || "I couldn’t generate a response.";
-      messages.push({ role: "bot", text: reply });
-      renderMessages();
-    } catch (e) {
-      console.error(e);
-      messages.push({ role: "bot", text: "Server error — please try again." });
-      renderMessages();
-    } finally {
-      typing.style.display = "none";
-      btn.disabled = false;
-    }
-  }
-
-  document.getElementById("chat-input").addEventListener("keydown", e => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  // ===== QUIZ =====
-  async function generateQuiz() {
-    const notes = document.getElementById("notes-textarea").value.trim();
-    const count = Number(document.getElementById("quiz-count").value) || 5;
-    const out = document.getElementById("quiz-output");
-
-    if (!notes) {
-      out.textContent = "Please paste notes first.";
-      return;
-    }
-
-    out.textContent = "Generating quiz…";
-
-    const prompt =
-      `Create ${count} multiple-choice questions (A–D options) from the notes below.\n` +
-      `Use this exact format for each question:\n\n` +
-      `Q1: question text\n` +
-      `A) option\nB) option\nC) option\nD) option\n` +
-      `Answer: C\n` +
-      `Explanation: short explanation.\n\n` +
-      `Do not include the correct answer anywhere except on the line starting with "Answer:".\n\n` +
-      `Notes:\n${notes}`;
-
-    try {
-      const res = await fetch(API_URL, {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({ message: prompt })
-      });
-
-      const data = await res.json();
-      const raw = data.reply || "Could not generate quiz.";
-      const lines = raw.split("\n");
-
-      let html = "";
-      let i = 0;
-      while (i < lines.length) {
-        const line = lines[i];
-        const trimmed = line.trim();
-        const lower = trimmed.toLowerCase();
-
-        if (lower.startsWith("answer:")) {
-          const answerOnly = trimmed.slice("Answer:".length).trim();
-          let explanationLine = "";
-          if (i + 1 < lines.length) {
-            const next = lines[i + 1].trim();
-            if (next.toLowerCase().startsWith("explanation:")) {
-              explanationLine = next;
-              i++;
-            }
-          }
-
-          const answerEsc = escapeHtml(answerOnly);
-          const explEsc = explanationLine ? escapeHtml(explanationLine) : "";
-
-          html += `<details><summary>Show answer</summary><div>Answer: ${answerEsc}</div>`;
-          if (explEsc) {
-            html += `<div>${explEsc}</div>`;
-          }
-          html += `</details>`;
-        } else {
-          html += escapeHtml(line) + "<br>";
-        }
-        i++;
-      }
-
-      out.innerHTML = html || "Could not generate quiz.";
-    } catch (e) {
-      console.error(e);
-      out.textContent = "Error contacting server.";
-    }
   }
 </script>
 
