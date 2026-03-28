@@ -15,7 +15,6 @@
     * { box-sizing: border-box; }
 
     :root {
-      --bg: #f6f4ef;
       --surface: #fcfbf8;
       --surface-2: #ffffff;
       --sidebar: #f1eee6;
@@ -26,10 +25,11 @@
       --primary: #6f8a68;
       --primary-dark: #556a50;
       --primary-soft: #e7eee3;
-      --accent: #d8e3d1;
       --shadow: 0 10px 30px rgba(58, 67, 54, 0.08);
       --shadow-soft: 0 4px 14px rgba(58, 67, 54, 0.06);
-      --danger: #b25f57;
+      --today: #edf4e9;
+      --selected: #f8fbf6;
+      --completed: #f3f8ef;
     }
 
     body {
@@ -43,7 +43,7 @@
 
     .shell {
       width: 100%;
-      max-width: 1400px;
+      max-width: 1480px;
       margin: 0 auto;
       min-height: calc(100vh - 36px);
       background: var(--surface);
@@ -51,7 +51,7 @@
       border-radius: 28px;
       box-shadow: var(--shadow);
       display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
+      grid-template-columns: 250px minmax(0, 1fr);
       overflow: hidden;
     }
 
@@ -65,19 +65,7 @@
     }
 
     .brand {
-      padding: 10px 8px 4px;
-    }
-
-    .brand-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      background: var(--primary-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.35rem;
-      margin-bottom: 12px;
+      padding: 10px 8px 8px;
     }
 
     .brand h1 {
@@ -121,10 +109,8 @@
       font-size: 0.96rem;
       font-weight: 600;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
       transition: 0.18s ease;
+      font-family: inherit;
     }
 
     .nav button:hover {
@@ -137,18 +123,6 @@
       color: var(--text);
       box-shadow: var(--shadow-soft);
       border: 1px solid var(--border);
-    }
-
-    .nav .icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 10px;
-      background: var(--primary-soft);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
     }
 
     .sidebar-card {
@@ -176,7 +150,6 @@
       display: flex;
       flex-direction: column;
       min-width: 0;
-      background: transparent;
     }
 
     .topbar {
@@ -200,23 +173,6 @@
       margin: 6px 0 0;
       color: var(--muted);
       font-size: 0.95rem;
-    }
-
-    .topbar-right {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .pill {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.8rem;
-      font-weight: 600;
     }
 
     .content {
@@ -288,6 +244,18 @@
       box-shadow: var(--shadow-soft);
     }
 
+    .dashboard-click {
+      text-align: left;
+      cursor: pointer;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .dashboard-click:hover {
+      transform: translateY(-2px);
+      background: #fdfcf9;
+    }
+
     .stat-label {
       font-size: 0.82rem;
       color: var(--muted-2);
@@ -324,6 +292,7 @@
       cursor: pointer;
       transition: 0.18s ease;
       white-space: nowrap;
+      font-family: inherit;
     }
 
     .btn-primary {
@@ -353,7 +322,6 @@
 
     .textarea,
     .chat-input-row textarea,
-    .input,
     input[type="date"],
     input[type="number"] {
       width: 100%;
@@ -369,7 +337,6 @@
 
     .textarea:focus,
     .chat-input-row textarea:focus,
-    .input:focus,
     input[type="date"]:focus,
     input[type="number"]:focus {
       border-color: #c8d4c2;
@@ -382,13 +349,13 @@
     }
 
     .textarea {
-      min-height: 220px;
+      min-height: 240px;
       resize: vertical;
     }
 
     .chat-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 290px;
+      grid-template-columns: minmax(0, 1fr) 270px;
       gap: 16px;
       min-height: 0;
       flex: 1;
@@ -405,10 +372,10 @@
       border-radius: 20px;
       border: 1px solid var(--border);
       background: #f9f8f4;
-      padding: 14px;
+      padding: 16px;
       flex: 1;
-      min-height: 380px;
-      max-height: 560px;
+      min-height: 620px;
+      max-height: 760px;
       overflow-y: auto;
     }
 
@@ -432,7 +399,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.05rem;
+      font-size: 1rem;
       flex-shrink: 0;
     }
 
@@ -511,8 +478,8 @@
     .chat-input-row textarea {
       flex: 1;
       resize: none;
-      min-height: 54px;
-      max-height: 160px;
+      min-height: 64px;
+      max-height: 180px;
     }
 
     .side-stack {
@@ -577,12 +544,45 @@
       min-height: 0;
     }
 
-    .planner-grid {
+    .planner-top-grid {
       display: grid;
-      grid-template-columns: 1.25fr 0.9fr;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .planner-stat {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .planner-stat-label {
+      font-size: 0.8rem;
+      color: var(--muted-2);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .planner-stat-value {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .planner-main-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.95fr;
       gap: 16px;
       min-height: 0;
       flex: 1;
+    }
+
+    .planner-side-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
     }
 
     .calendar {
@@ -590,59 +590,6 @@
       grid-template-columns: repeat(7, 1fr);
       gap: 8px;
       margin-top: 12px;
-    }
-
-    .footer {
-      margin-top: auto;
-      padding-top: 4px;
-      font-size: 0.82rem;
-      color: var(--muted-2);
-    }
-
-    .message.bot .bubble h1,
-    .message.bot .bubble h2,
-    .message.bot .bubble h3 {
-      margin: 6px 0 4px;
-      font-weight: 800;
-      color: var(--primary-dark);
-      font-size: 1rem;
-    }
-
-    .message.bot .bubble p { margin: 6px 0; }
-    .message.bot .bubble ul,
-    .message.bot .bubble ol { margin: 8px 0 8px 18px; padding-left: 0; }
-    .message.bot .bubble li { margin-bottom: 4px; }
-    .message.bot .bubble code {
-      background: #eef3eb;
-      padding: 2px 6px;
-      border-radius: 6px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.84rem;
-    }
-    .message.bot .bubble pre {
-      background: #f3f6f1;
-      padding: 10px 12px;
-      border-radius: 12px;
-      overflow-x: auto;
-      margin: 8px 0;
-      border: 1px solid var(--border);
-    }
-
-    .hidden-mobile {
-      display: block;
-    }
-
-    .dashboard-click {
-      text-align: left;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      width: 100%;
-      font-family: inherit;
-    }
-
-    .dashboard-click:hover {
-      transform: translateY(-2px);
-      background: #fdfcf9;
     }
 
     .dashboard-list {
@@ -691,18 +638,56 @@
       font-size: 0.92rem;
     }
 
-    @media (max-width: 1180px) {
+    .footer {
+      margin-top: auto;
+      padding-top: 4px;
+      font-size: 0.82rem;
+      color: var(--muted-2);
+    }
+
+    .message.bot .bubble h1,
+    .message.bot .bubble h2,
+    .message.bot .bubble h3 {
+      margin: 6px 0 4px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      font-size: 1rem;
+    }
+
+    .message.bot .bubble p { margin: 6px 0; }
+    .message.bot .bubble ul,
+    .message.bot .bubble ol { margin: 8px 0 8px 18px; padding-left: 0; }
+    .message.bot .bubble li { margin-bottom: 4px; }
+    .message.bot .bubble code {
+      background: #eef3eb;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.84rem;
+    }
+    .message.bot .bubble pre {
+      background: #f3f6f1;
+      padding: 10px 12px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 8px 0;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 1220px) {
       .chat-layout,
       .dashboard-grid,
-      .planner-grid {
+      .planner-main-grid {
         grid-template-columns: 1fr;
+      }
+
+      .planner-top-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
     @media (max-width: 900px) {
-      body {
-        padding: 10px;
-      }
+      body { padding: 10px; }
 
       .shell {
         grid-template-columns: 1fr;
@@ -714,8 +699,13 @@
         border-bottom: 1px solid var(--border);
       }
 
-      .mini-grid {
+      .mini-grid,
+      .planner-top-grid {
         grid-template-columns: 1fr;
+      }
+
+      .chat-box {
+        min-height: 500px;
       }
     }
 
@@ -729,10 +719,6 @@
       .chat-input-row {
         flex-direction: column;
       }
-
-      .hidden-mobile {
-        display: none;
-      }
     }
   </style>
 </head>
@@ -741,7 +727,6 @@
   <div class="shell">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-badge">🎓</div>
         <h1>AI Tutor</h1>
         <p>One step at a time. One concept at a time.</p>
       </div>
@@ -749,30 +734,18 @@
       <div>
         <div class="sidebar-section-title">Workspace</div>
         <nav class="nav">
-          <button id="tab-dashboard" class="active" onclick="showSection('dashboard')">
-            <span class="icon">🏠</span><span>Dashboard</span>
-          </button>
-          <button id="tab-chat" onclick="showSection('chat')">
-            <span class="icon">💬</span><span>Chat</span>
-          </button>
-          <button id="tab-notes" onclick="showSection('notes')">
-            <span class="icon">📝</span><span>Notes</span>
-          </button>
-          <button id="tab-quiz" onclick="showSection('quiz')">
-            <span class="icon">✏️</span><span>Quiz</span>
-          </button>
-          <button id="tab-flashcards" onclick="showSection('flashcards')">
-            <span class="icon">🃏</span><span>Flashcards</span>
-          </button>
-          <button id="tab-planner" onclick="showSection('planner')">
-            <span class="icon">🗓️</span><span>Planner</span>
-          </button>
+          <button id="tab-dashboard" class="active" onclick="showSection('dashboard')">Dashboard</button>
+          <button id="tab-chat" onclick="showSection('chat')">Chat</button>
+          <button id="tab-notes" onclick="showSection('notes')">Notes</button>
+          <button id="tab-quiz" onclick="showSection('quiz')">Quiz</button>
+          <button id="tab-flashcards" onclick="showSection('flashcards')">Flashcards</button>
+          <button id="tab-planner" onclick="showSection('planner')">Planner</button>
         </nav>
       </div>
 
       <div class="sidebar-card">
         <h3>Study tip</h3>
-        <p>Paste your notes first, then use quiz, flashcards, and planner to turn them into real study tools.</p>
+        <p>Paste your notes first, then turn them into quizzes, flashcards, and a study plan.</p>
       </div>
     </aside>
 
@@ -780,23 +753,16 @@
       <div class="topbar">
         <div>
           <h2 id="page-title">Dashboard</h2>
-          <p id="page-subtitle">Your calm, organized space to study, review, and stay on track.</p>
-        </div>
-
-        <div class="topbar-right">
-          <span class="pill">Notes saved in browser</span>
-          <span class="pill hidden-mobile">AWS Lambda + OpenAI</span>
+          <p id="page-subtitle">Your calm, organized space to study and stay on track.</p>
         </div>
       </div>
 
       <div class="content">
-        <!-- DASHBOARD -->
         <section id="section-dashboard" class="section active">
           <div class="dashboard-grid">
             <div class="card">
               <h3 class="card-title">Welcome back</h3>
               <p class="help-text">
-                This version is designed to feel more like a real study platform, not just a chatbot.
                 Use the sections on the left to chat, save notes, make quizzes, generate flashcards, and build a study plan.
               </p>
 
@@ -819,25 +785,25 @@
             <button class="stat-card dashboard-click" onclick="showSection('notes')">
               <div class="stat-label">Saved notes</div>
               <div class="stat-value" id="dash-notes-status">0</div>
-              <div class="stat-sub">Open your notes and keep building your study material.</div>
+              <div class="stat-sub">Keep building your study material.</div>
             </button>
 
             <button class="stat-card dashboard-click" onclick="showSection('flashcards')">
               <div class="stat-label">Flashcards</div>
               <div class="stat-value" id="dash-cards-status">0</div>
-              <div class="stat-sub">Review your generated flashcards and keep practicing.</div>
+              <div class="stat-sub">Review your generated cards.</div>
             </button>
 
             <button class="stat-card dashboard-click" onclick="showSection('planner')">
               <div class="stat-label">Study plan progress</div>
               <div class="stat-value" id="dash-plan-progress">0%</div>
-              <div class="stat-sub">Check today’s tasks and track how much is done.</div>
+              <div class="stat-sub">Check today’s tasks and progress.</div>
             </button>
 
             <button class="stat-card dashboard-click" onclick="showSection('chat')">
               <div class="stat-label">Messages this session</div>
               <div class="stat-value" id="dash-message-count">1</div>
-              <div class="stat-sub">Jump back into chat and keep asking questions.</div>
+              <div class="stat-sub">Jump back into chat.</div>
             </button>
           </div>
 
@@ -866,13 +832,11 @@
           </div>
         </section>
 
-        <!-- CHAT -->
         <section id="section-chat" class="section">
           <div class="chat-layout">
             <div class="chat-panel">
               <div class="card">
-                <h3 class="card-title">Chat with your tutor</h3>
-                <p class="help-text">Ask questions and get step-by-step explanations in a cleaner study-friendly layout.</p>
+                <h3 class="card-title">Chat</h3>
 
                 <div id="chat-box" class="chat-box"></div>
 
@@ -892,7 +856,7 @@
               <div class="soft-box">
                 <h3>How to use chat</h3>
                 <ul>
-                  <li>Ask one topic at a time for clearer answers.</li>
+                  <li>Ask one topic at a time.</li>
                   <li>Paste notes first if you want more personalized help.</li>
                   <li>Use follow-up questions to go step by step.</li>
                 </ul>
@@ -908,13 +872,9 @@
           </div>
         </section>
 
-        <!-- NOTES -->
         <section id="section-notes" class="section">
           <div class="card">
-            <h3 class="card-title">Your notes</h3>
-            <p class="help-text">Paste lecture notes, summaries, definitions, or review points here. These stay in this browser only.</p>
-            <p class="hint">Tip: Use headings like “Stacks”, “Queues”, or “Routing” to keep topics organized.</p>
-
+            <h3 class="card-title">Notes</h3>
             <textarea
               id="notes-textarea"
               class="textarea"
@@ -926,11 +886,9 @@ Used in function calls, undo history, and expression evaluation..."
           </div>
         </section>
 
-        <!-- QUIZ -->
         <section id="section-quiz" class="section">
           <div class="card">
-            <h3 class="card-title">Quiz generator</h3>
-            <p class="help-text">Turn your notes into a quick self-check quiz.</p>
+            <h3 class="card-title">Quiz</h3>
 
             <div class="toolbar-row" style="margin-top: 10px; margin-bottom: 10px;">
               <div style="min-width: 180px;">
@@ -949,11 +907,9 @@ Used in function calls, undo history, and expression evaluation..."
           </div>
         </section>
 
-        <!-- FLASHCARDS -->
         <section id="section-flashcards" class="section">
           <div class="card">
             <h3 class="card-title">Flashcards</h3>
-            <p class="help-text">Generate Quizlet-style flashcards from your notes and flip through them one by one.</p>
 
             <div class="flash-toolbar" style="margin-top: 12px; margin-bottom: 12px;">
               <div style="min-width: 160px;">
@@ -972,14 +928,31 @@ Used in function calls, undo history, and expression evaluation..."
           </div>
         </section>
 
-        <!-- PLANNER -->
         <section id="section-planner" class="section">
-          <div class="planner-grid">
+          <div class="planner-top-grid">
+            <div class="planner-stat">
+              <div class="planner-stat-label">Tasks left</div>
+              <div class="planner-stat-value" id="planner-tasks-left">0</div>
+            </div>
+            <div class="planner-stat">
+              <div class="planner-stat-label">Study days left</div>
+              <div class="planner-stat-value" id="planner-days-left">0</div>
+            </div>
+            <div class="planner-stat">
+              <div class="planner-stat-label">Exam countdown</div>
+              <div class="planner-stat-value" id="planner-exam-countdown">—</div>
+            </div>
+            <div class="planner-stat">
+              <div class="planner-stat-label">Progress</div>
+              <div class="planner-stat-value" id="planner-progress-big">0%</div>
+            </div>
+          </div>
+
+          <div class="planner-main-grid">
             <div class="panel">
               <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
                 <div>
                   <div class="card-title" style="font-size:1rem;">Calendar</div>
-                  <div class="hint" style="margin-top:4px;">Days with tasks will show progress and a preview.</div>
                 </div>
 
                 <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
@@ -992,55 +965,63 @@ Used in function calls, undo history, and expression evaluation..."
               <div id="calendar" class="calendar"></div>
             </div>
 
-            <div class="panel">
-              <div class="card-title" style="font-size:1rem;">Plan settings</div>
+            <div class="planner-side-grid">
+              <div class="panel">
+                <div class="card-title" style="font-size:1rem;">Plan settings</div>
 
-              <div style="display:flex; flex-direction:column; gap:12px; margin-top:12px;">
-                <label style="font-size:0.92rem; color:var(--muted);">
-                  Exam / deadline date
-                  <input id="exam-date" type="date" />
-                </label>
-
-                <div style="display:flex; gap:10px;">
-                  <label style="flex:1; font-size:0.92rem; color:var(--muted);">
-                    Days/week
-                    <input id="days-per-week" type="number" min="3" max="7" value="5" />
+                <div style="display:flex; flex-direction:column; gap:12px; margin-top:12px;">
+                  <label style="font-size:0.92rem; color:var(--muted);">
+                    Exam / deadline date
+                    <input id="exam-date" type="date" />
                   </label>
-                  <label style="flex:1; font-size:0.92rem; color:var(--muted);">
-                    Minutes/day
-                    <input id="minutes-per-day" type="number" min="15" max="240" value="60" />
-                  </label>
-                </div>
 
-                <div class="toolbar-row">
-                  <button class="btn-primary" onclick="generatePlan()">Generate plan</button>
-                  <button class="btn-outline" onclick="clearPlan()">Clear plan</button>
-                </div>
-
-                <div id="plan-status" class="help-text">No plan yet. Generate one.</div>
-
-                <div style="margin-top:2px;">
-                  <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--muted); margin-bottom:6px;">
-                    <span id="progress-text">Progress: 0%</span>
-                    <span id="progress-counts">0/0</span>
+                  <div style="display:flex; gap:10px;">
+                    <label style="flex:1; font-size:0.92rem; color:var(--muted);">
+                      Days/week
+                      <input id="days-per-week" type="number" min="3" max="7" value="5" />
+                    </label>
+                    <label style="flex:1; font-size:0.92rem; color:var(--muted);">
+                      Minutes/day
+                      <input id="minutes-per-day" type="number" min="15" max="240" value="60" />
+                    </label>
                   </div>
-                  <div style="height:12px; border-radius:999px; background:#f2f0e9; border:1px solid var(--border); overflow:hidden;">
-                    <div id="progress-bar" style="height:100%; width:0%; background:linear-gradient(90deg,#95ab8e,#6f8a68);"></div>
+
+                  <div class="toolbar-row">
+                    <button class="btn-primary" onclick="generatePlan()">Generate plan</button>
+                    <button class="btn-outline" onclick="clearPlan()">Clear plan</button>
+                  </div>
+
+                  <div id="plan-status" class="help-text">No plan yet. Generate one.</div>
+
+                  <div style="margin-top:2px;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:var(--muted); margin-bottom:6px;">
+                      <span id="progress-text">Progress: 0%</span>
+                      <span id="progress-counts">0/0</span>
+                    </div>
+                    <div style="height:12px; border-radius:999px; background:#f2f0e9; border:1px solid var(--border); overflow:hidden;">
+                      <div id="progress-bar" style="height:100%; width:0%; background:linear-gradient(90deg,#95ab8e,#6f8a68);"></div>
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <div style="border-top:1px solid var(--border); padding-top:12px;">
-                  <div class="card-title" style="font-size:1rem;">Selected day</div>
-                  <div id="day-detail" class="hint" style="margin-top:6px;">Click a date to see tasks.</div>
-                  <div id="task-list" style="margin-top:10px;"></div>
-                </div>
+              <div class="panel">
+                <div class="card-title" style="font-size:1rem;">Selected day</div>
+                <div id="day-detail" class="hint" style="margin-top:6px;">Click a date to see tasks.</div>
+                <div id="planner-day-message" class="help-text" style="margin-top:8px;">Your daily study view will appear here.</div>
+                <div id="task-list" style="margin-top:10px;"></div>
+              </div>
+
+              <div class="panel">
+                <div class="card-title" style="font-size:1rem;">Upcoming sessions</div>
+                <div id="planner-upcoming-list" class="dashboard-list" style="margin-top:10px;"></div>
               </div>
             </div>
           </div>
         </section>
 
         <div class="footer">
-          AWS Lambda + OpenAI • Notes and generated study tools are stored locally in your browser
+          Study tools are stored locally in your browser
         </div>
       </div>
     </main>
@@ -1062,30 +1043,12 @@ Used in function calls, undo history, and expression evaluation..."
     }
 
     const PAGE_META = {
-      dashboard: {
-        title: "Dashboard",
-        subtitle: "Your calm, organized space to study, review, and stay on track."
-      },
-      chat: {
-        title: "Chat",
-        subtitle: "Ask questions, get explanations, and learn step by step."
-      },
-      notes: {
-        title: "Notes",
-        subtitle: "Keep your study material in one clean place."
-      },
-      quiz: {
-        title: "Quiz",
-        subtitle: "Generate practice questions from your notes."
-      },
-      flashcards: {
-        title: "Flashcards",
-        subtitle: "Review key ideas with a clean Quizlet-style deck."
-      },
-      planner: {
-        title: "Planner",
-        subtitle: "Turn your notes into a daily study plan with progress tracking."
-      }
+      dashboard: { title: "Dashboard", subtitle: "Your calm, organized space to study and stay on track." },
+      chat: { title: "Chat", subtitle: "Ask questions, get explanations, and learn step by step." },
+      notes: { title: "Notes", subtitle: "Keep your study material in one clean place." },
+      quiz: { title: "Quiz", subtitle: "Generate practice questions from your notes." },
+      flashcards: { title: "Flashcards", subtitle: "Review and study from your notes." },
+      planner: { title: "Planner", subtitle: "Plan your study sessions and track progress." }
     };
 
     function updateTopbar(name) {
@@ -1107,6 +1070,8 @@ Used in function calls, undo history, and expression evaluation..."
       if (name === "planner") {
         renderCalendar();
         setPlanStatus();
+        updatePlannerSummaryCards();
+        renderPlannerUpcoming();
       }
       if (name === "flashcards") {
         updateCardsStatus();
@@ -1114,6 +1079,7 @@ Used in function calls, undo history, and expression evaluation..."
           startDeckMode();
         }
       }
+
       updateDashboard();
     }
 
@@ -1178,7 +1144,7 @@ Used in function calls, undo history, and expression evaluation..."
 
         const avatar = document.createElement("div");
         avatar.className = "avatar " + (m.role === "user" ? "user" : "bot");
-        avatar.textContent = m.role === "user" ? "🧑" : "🎓";
+        avatar.textContent = m.role === "user" ? "You" : "AI";
 
         const bubble = document.createElement("div");
         bubble.className = "bubble";
@@ -1249,6 +1215,8 @@ Used in function calls, undo history, and expression evaluation..."
       updateCardsStatus();
       renderCalendar();
       setPlanStatus();
+      updatePlannerSummaryCards();
+      renderPlannerUpcoming();
       updateDashboard();
       updateTopbar("dashboard");
 
@@ -1493,9 +1461,12 @@ Used in function calls, undo history, and expression evaluation..."
       localStorage.removeItem(PLAN_DONE_KEY);
       selectedDateStr = null;
       document.getElementById("day-detail").textContent = "Plan cleared.";
+      document.getElementById("planner-day-message").textContent = "Your daily study view will appear here.";
       document.getElementById("task-list").innerHTML = "";
       renderCalendar();
       setPlanStatus();
+      updatePlannerSummaryCards();
+      renderPlannerUpcoming();
       updateDashboard();
     }
 
@@ -1546,6 +1517,8 @@ Used in function calls, undo history, and expression evaluation..."
 
         renderCalendar();
         setPlanStatus();
+        updatePlannerSummaryCards();
+        renderPlannerUpcoming();
         if (selectedDateStr) openDay(selectedDateStr);
 
         detail.textContent = "Plan created. Click a date to see tasks.";
@@ -1581,7 +1554,89 @@ Used in function calls, undo history, and expression evaluation..."
       if (txt) txt.textContent = `Progress: ${pct}%`;
       if (counts) counts.textContent = `${doneTasks}/${totalTasks}`;
 
+      document.getElementById("planner-progress-big").textContent = pct + "%";
+
       updateDashboard();
+    }
+
+    function updatePlannerSummaryCards() {
+      const plan = loadPlan();
+      const done = loadDone();
+      const examDate = document.getElementById("exam-date").value;
+
+      let totalTasks = 0;
+      let doneTasks = 0;
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      let futureDays = 0;
+
+      plan.forEach(day => {
+        const dt = new Date(day.date + "T00:00:00");
+        if (dt >= today) futureDays += 1;
+
+        totalTasks += (day.tasks || []).length;
+        const d = done[day.date] || {};
+        (day.tasks || []).forEach((_, i) => {
+          if (d[i]) doneTasks += 1;
+        });
+      });
+
+      const tasksLeft = Math.max(totalTasks - doneTasks, 0);
+
+      document.getElementById("planner-tasks-left").textContent = tasksLeft;
+      document.getElementById("planner-days-left").textContent = futureDays;
+
+      if (examDate) {
+        const exam = new Date(examDate + "T00:00:00");
+        const diff = Math.ceil((exam - today) / (1000 * 60 * 60 * 24));
+        if (diff > 0) document.getElementById("planner-exam-countdown").textContent = diff + " days";
+        else if (diff === 0) document.getElementById("planner-exam-countdown").textContent = "Today";
+        else document.getElementById("planner-exam-countdown").textContent = "Passed";
+      } else {
+        document.getElementById("planner-exam-countdown").textContent = "—";
+      }
+    }
+
+    function renderPlannerUpcoming() {
+      const plan = loadPlan();
+      const done = loadDone();
+      const list = document.getElementById("planner-upcoming-list");
+      if (!list) return;
+
+      if (!plan.length) {
+        list.innerHTML = `<div class="dashboard-empty">Generate a study plan to see upcoming sessions.</div>`;
+        return;
+      }
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      const upcoming = plan
+        .filter(day => new Date(day.date + "T00:00:00") >= today)
+        .slice(0, 3);
+
+      if (!upcoming.length) {
+        list.innerHTML = `<div class="dashboard-empty">No upcoming sessions left in this plan.</div>`;
+        return;
+      }
+
+      list.innerHTML = upcoming.map(day => {
+        const tasks = day.tasks || [];
+        const dmap = done[day.date] || {};
+        const completed = tasks.filter((_, i) => dmap[i]).length;
+        return `
+          <div class="dashboard-item">
+            <div class="dashboard-item-date">${day.date}</div>
+            <div class="dashboard-item-text">
+              ${tasks[0] ? escapeHtml(tasks[0]) : "Study session"}
+              <br>
+              <span style="color: var(--muted);">${completed}/${tasks.length} completed • ~${day.estimatedMinutes || 60} min</span>
+            </div>
+          </div>
+        `;
+      }).join("");
     }
 
     function renderCalendar() {
@@ -1597,6 +1652,9 @@ Used in function calls, undo history, and expression evaluation..."
       plan.forEach(d => { planByDate[d.date] = d; });
 
       const done = loadDone();
+
+      const todayObj = new Date();
+      todayObj.setHours(0,0,0,0);
 
       const headers = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
       headers.forEach(h => {
@@ -1615,7 +1673,7 @@ Used in function calls, undo history, and expression evaluation..."
 
       for (let i = 0; i < startDay; i++) {
         const blank = document.createElement("div");
-        blank.style.minHeight = "88px";
+        blank.style.minHeight = "92px";
         cal.appendChild(blank);
       }
 
@@ -1628,7 +1686,7 @@ Used in function calls, undo history, and expression evaluation..."
 
         const cell = document.createElement("button");
         cell.onclick = () => { selectedDateStr = dateStr; openDay(dateStr); renderCalendar(); };
-        cell.style.minHeight = "88px";
+        cell.style.minHeight = "92px";
         cell.style.borderRadius = "16px";
         cell.style.border = "1px solid var(--border)";
         cell.style.background = "#fcfcfa";
@@ -1636,10 +1694,16 @@ Used in function calls, undo history, and expression evaluation..."
         cell.style.padding = "10px";
         cell.style.textAlign = "left";
         cell.style.cursor = "pointer";
+        cell.style.fontFamily = "inherit";
+
+        const isToday = dateObj.getTime() === todayObj.getTime();
+        if (isToday) {
+          cell.style.background = "var(--today)";
+        }
 
         if (selectedDateStr === dateStr) {
           cell.style.outline = "2px solid #c9d6c3";
-          cell.style.background = "#ffffff";
+          cell.style.background = "var(--selected)";
         }
 
         const top = document.createElement("div");
@@ -1655,6 +1719,10 @@ Used in function calls, undo history, and expression evaluation..."
           const dmap = done[dateStr] || {};
           const completed = tasks.filter((_, i) => dmap[i]).length;
 
+          if (tasks.length && completed === tasks.length) {
+            cell.style.background = "var(--completed)";
+          }
+
           const badge = document.createElement("div");
           badge.style.marginTop = "7px";
           badge.style.fontSize = "0.78rem";
@@ -1669,11 +1737,10 @@ Used in function calls, undo history, and expression evaluation..."
           preview.style.color = "var(--muted)";
           preview.style.lineHeight = "1.35";
           const firstTask = tasks[0] || "";
-          preview.textContent = firstTask ? (firstTask.length > 36 ? firstTask.slice(0, 36) + "…" : firstTask) : "";
+          preview.textContent = firstTask ? (firstTask.length > 34 ? firstTask.slice(0, 34) + "…" : firstTask) : "";
           cell.appendChild(preview);
 
           cell.style.border = "1px solid #d7e3d1";
-          cell.style.background = "#f9fcf7";
         } else {
           const none = document.createElement("div");
           none.style.marginTop = "8px";
@@ -1687,6 +1754,8 @@ Used in function calls, undo history, and expression evaluation..."
       }
 
       setPlanStatus();
+      updatePlannerSummaryCards();
+      renderPlannerUpcoming();
     }
 
     function openDay(dateStr) {
@@ -1694,9 +1763,11 @@ Used in function calls, undo history, and expression evaluation..."
       const day = plan.find(d => d.date === dateStr);
       const detail = document.getElementById("day-detail");
       const list = document.getElementById("task-list");
+      const dayMessage = document.getElementById("planner-day-message");
 
       if (!day) {
         detail.textContent = `${dateStr}: No tasks scheduled.`;
+        dayMessage.textContent = "This is an open day with no planned study tasks.";
         list.innerHTML = "";
         return;
       }
@@ -1704,8 +1775,19 @@ Used in function calls, undo history, and expression evaluation..."
       const done = loadDone();
       const dmap = done[dateStr] || {};
       const tasks = day.tasks || [];
+      const completed = tasks.filter((_, i) => dmap[i]).length;
 
       detail.textContent = `${dateStr} • ${tasks.length} task(s) • ~${day.estimatedMinutes || 60} min`;
+
+      if (completed === tasks.length && tasks.length > 0) {
+        dayMessage.textContent = "Nice work — this study day is fully completed.";
+      } else if ((day.estimatedMinutes || 60) <= 45) {
+        dayMessage.textContent = "This looks like a lighter review day.";
+      } else if ((day.estimatedMinutes || 60) <= 90) {
+        dayMessage.textContent = "This is a balanced study session.";
+      } else {
+        dayMessage.textContent = "This is a heavier focus day, so take your time and work through it step by step.";
+      }
 
       const wrap = document.createElement("div");
       wrap.style.display = "flex";
@@ -1735,6 +1817,7 @@ Used in function calls, undo history, and expression evaluation..."
           renderCalendar();
           setPlanStatus();
           updateDashboard();
+          openDay(dateStr);
         };
 
         const txt = document.createElement("div");
@@ -1751,6 +1834,7 @@ Used in function calls, undo history, and expression evaluation..."
       list.appendChild(wrap);
 
       setPlanStatus();
+      renderPlannerUpcoming();
     }
 
     function updateDashboard() {
