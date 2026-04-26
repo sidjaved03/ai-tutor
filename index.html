@@ -644,6 +644,18 @@
       border: 1px solid var(--border);
     }
 
+  .auth-status {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+  .auth-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
     @media (max-width: 1220px) {
       .dashboard-grid,
       .planner-main-grid {
@@ -720,11 +732,17 @@
 
     <main class="main">
       <div class="topbar">
-        <div>
-          <h2 id="page-title">Dashboard</h2>
-          <p id="page-subtitle">Your calm, organized space to study and stay on track.</p>
-        </div>
-      </div>
+  <div>
+    <h2 id="page-title">Dashboard</h2>
+    <p id="page-subtitle">Your calm, organized space to study and stay on track.</p>
+  </div>
+
+  <div class="auth-actions">
+    <span id="auth-status" class="auth-status">Not logged in</span>
+    <button id="login-btn" class="btn-primary" onclick="loginWithCognito()">Login</button>
+    <button id="logout-btn" class="btn-outline" onclick="logout()" style="display:none;">Logout</button>
+  </div>
+</div>
 
       <div class="content">
         <section id="section-dashboard" class="section active">
@@ -976,7 +994,46 @@ Used in function calls, undo history, and expression evaluation..."
 
   <script>
     const API_URL = "https://6mys7jmm4mwac4p46io3puwyca0mqgfu.lambda-url.us-east-2.on.aws";
+    const COGNITO_LOGIN_URL =
+  "https://us-east-2fhif6by7y.auth.us-east-2.amazoncognito.com/login?client_id=t9ts1i54r4i973q1vhhasn2gk&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Faitutor.rocks%2F";
 
+const COGNITO_LOGOUT_URL =
+  "https://us-east-2fhif6by7y.auth.us-east-2.amazoncognito.com/logout?client_id=t9ts1i54r4i973q1vhhasn2gk&logout_uri=https%3A%2F%2Faitutor.rocks%2F";
+
+function loginWithCognito() {
+  window.location.href = COGNITO_LOGIN_URL;
+}
+
+function logout() {
+  localStorage.removeItem("aiTutorLoggedIn");
+  window.location.href = COGNITO_LOGOUT_URL;
+}
+
+function checkAuth() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+
+  if (code) {
+    localStorage.setItem("aiTutorLoggedIn", "true");
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
+  const loggedIn = localStorage.getItem("aiTutorLoggedIn") === "true";
+
+  const authStatus = document.getElementById("auth-status");
+  const loginBtn = document.getElementById("login-btn");
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (loggedIn) {
+    authStatus.textContent = "Logged in";
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+  } else {
+    authStatus.textContent = "Not logged in";
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+  }
+}
     function escapeHtml(str) {
       return (str || "")
         .replace(/&/g,"&amp;")
@@ -1155,6 +1212,7 @@ Used in function calls, undo history, and expression evaluation..."
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      checkAuth();
       loadNotesFromStorage();
       document.getElementById("notes-textarea").addEventListener("input", saveNotesToStorage);
 
