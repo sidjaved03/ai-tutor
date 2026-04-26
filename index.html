@@ -1103,11 +1103,30 @@ function checkAuth() {
     }
 
     async function postJSON(payload) {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+    const token = localStorage.getItem("aiTutorLoggedIn") === "true"
+    ? "logged-in-user"
+    : "";
+
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+      "Content-Type": "application/json",
+      "Authorization": token
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const text = await res.text();
+  let data = {};
+  try { data = JSON.parse(text); } catch {}
+
+  if (!res.ok) {
+    const msg = (data && data.error) ? data.error : (text || `HTTP ${res.status}`);
+    throw new Error(msg);
+  }
+
+  return data;
+}
 
       const text = await res.text();
       let data = {};
