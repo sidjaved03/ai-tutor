@@ -995,21 +995,21 @@ Used in function calls, undo history, and expression evaluation..."
   <script>
     const API_URL = "https://6mys7jmm4mwac4p46io3puwyca0mqgfu.lambda-url.us-east-2.on.aws";
     const COGNITO_LOGIN_URL =
-  "https://us-east-2fhif6by7y.auth.us-east-2.amazoncognito.com/login?client_id=t9ts1i54r4i973q1vhhasn2gk&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Faitutor.rocks%2F";
+      "https://us-east-2fhif6by7y.auth.us-east-2.amazoncognito.com/login?client_id=t9ts1i54r4i973q1vhhasn2gk&response_type=code&scope=email+openid+phone&redirect_uri=https%3A%2F%2Faitutor.rocks%2F";
 
-const COGNITO_LOGOUT_URL =
-  "https://us-east-2fhif6by7y.auth.us-east-2.amazoncognito.com/logout?client_id=t9ts1i54r4i973q1vhhasn2gk&logout_uri=https%3A%2F%2Faitutor.rocks%2F";
+    const COGNITO_LOGOUT_URL =
+      "https://us-east-2fhif6by7y.auth.us-east-2.amazoncognito.com/logout?client_id=t9ts1i54r4i973q1vhhasn2gk&logout_uri=https%3A%2F%2Faitutor.rocks%2F";
 
-function loginWithCognito() {
-  window.location.href = COGNITO_LOGIN_URL;
-}
+    function loginWithCognito() {
+      window.location.href = COGNITO_LOGIN_URL;
+    }
 
-function logout() {
-  localStorage.removeItem("aiTutorLoggedIn");
-  window.location.href = COGNITO_LOGOUT_URL;
-}
+    function logout() {
+      localStorage.removeItem("aiTutorLoggedIn");
+      window.location.href = COGNITO_LOGOUT_URL;
+    }
 
-function checkAuth() {
+    function checkAuth() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get("code");
 
@@ -1033,7 +1033,8 @@ function checkAuth() {
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
   }
-}
+    }
+
     function escapeHtml(str) {
       return (str || "")
         .replace(/&/g,"&amp;")
@@ -1103,30 +1104,18 @@ function checkAuth() {
     }
 
     async function postJSON(payload) {
-    const token = localStorage.getItem("aiTutorLoggedIn") === "true"
-    ? "logged-in-user"
-    : "";
+      const token = localStorage.getItem("aiTutorLoggedIn") === "true"
+        ? "logged-in-user"
+        : "";
 
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-      "Content-Type": "application/json",
-      "Authorization": token
-    },
-    body: JSON.stringify(payload)
-  });
-
-  const text = await res.text();
-  let data = {};
-  try { data = JSON.parse(text); } catch {}
-
-  if (!res.ok) {
-    const msg = (data && data.error) ? data.error : (text || `HTTP ${res.status}`);
-    throw new Error(msg);
-  }
-
-  return data;
-}
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        },
+        body: JSON.stringify(payload)
+      });
 
       const text = await res.text();
       let data = {};
