@@ -656,6 +656,116 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+
+    .review-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 12px 0 14px;
+    }
+
+    .review-stat-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #fcfcfa;
+      padding: 14px;
+    }
+
+    .review-stat-label {
+      font-size: 0.76rem;
+      color: var(--muted-2);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .review-stat-value {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .review-progress-wrap {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      height: 12px;
+      background: #f2f0e9;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .review-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #95ab8e, #6f8a68);
+      transition: width 0.2s ease;
+    }
+
+    .review-feedback {
+      border: 1px solid #d7e3d1;
+      background: var(--completed);
+      color: var(--primary-dark);
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .review-empty-state {
+      border: 1px dashed #cfd9c8;
+      background: #fbfcf8;
+      border-radius: 20px;
+      padding: 22px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .review-card-face {
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: #fcfcfa;
+      padding: 28px;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    .review-card-text {
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .review-choice-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .review-choice-row .btn-outline,
+    .review-choice-row .btn-primary {
+      min-width: 92px;
+    }
+
+    @media (max-width: 900px) {
+      .review-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .review-stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 1220px) {
       .dashboard-grid,
       .planner-main-grid {
@@ -878,22 +988,51 @@ Used in function calls, undo history, and expression evaluation..."
 
         <section id="section-flashcards" class="section">
           <div class="card">
-            <h3 class="card-title">Flashcards</h3>
+            <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap;">
+              <div>
+                <h3 class="card-title">Flashcards</h3>
+                <p class="help-text">Generate cards from your notes, then review only the ones that are due.</p>
+              </div>
+              <div id="cards-status" class="hint" style="font-weight:700;"></div>
+            </div>
 
-            <div class="flash-toolbar" style="margin-top: 12px; margin-bottom: 12px;">
+            <div class="review-stats-grid">
+              <div class="review-stat-card">
+                <div class="review-stat-label">Saved cards</div>
+                <div class="review-stat-value" id="review-total-cards">0</div>
+              </div>
+              <div class="review-stat-card">
+                <div class="review-stat-label">Due today</div>
+                <div class="review-stat-value" id="review-due-cards">0</div>
+              </div>
+              <div class="review-stat-card">
+                <div class="review-stat-label">Completed today</div>
+                <div class="review-stat-value" id="review-completed-today">0</div>
+              </div>
+              <div class="review-stat-card">
+                <div class="review-stat-label">Current card</div>
+                <div class="review-stat-value" id="review-current-card">—</div>
+              </div>
+            </div>
+
+            <div class="review-progress-wrap" title="Today’s review progress">
+              <div id="review-progress-fill" class="review-progress-fill"></div>
+            </div>
+            <div id="review-feedback" class="review-feedback" style="display:none;"></div>
+
+            <div class="flash-toolbar" style="margin-top: 16px; margin-bottom: 12px;">
               <div style="min-width: 160px;">
                 <label class="hint" for="card-count">Cards</label>
                 <input id="card-count" type="number" min="4" max="50" value="12" />
               </div>
 
               <button class="btn-primary" onclick="generateFlashcards()">Generate from notes</button>
-              <button class="btn-outline" onclick="startDeckMode()">Deck mode</button>
-              <button class="btn-outline" onclick="clearFlashcards()">Clear deck</button>
-
-              <div id="cards-status" class="hint" style="margin-left: auto;"></div>
+              <button class="btn-outline" onclick="startDeckMode()">View all cards</button>
+              <button class="btn-primary" onclick="startDueReviewMode()">Review due cards</button>
+              <button class="btn-outline" onclick="clearFlashcards()">Clear local deck</button>
             </div>
 
-            <div id="card-box" class="panel" style="min-height: 260px;"></div>
+            <div id="card-box" class="panel" style="min-height: 300px;"></div>
           </div>
         </section>
 
@@ -1175,6 +1314,14 @@ Used in function calls, undo history, and expression evaluation..."
       return await postJSON({ action: "load_flashcards" });
     }
 
+    async function apiDueFlashcardsLoad() {
+      return await postJSON({ action: "load_due_flashcards" });
+    }
+
+    async function apiFlashcardReview(cardId, result) {
+      return await postJSON({ action: "review_flashcard", cardId, result });
+    }
+
     async function apiPlanGenerate(notes, examDate, daysPerWeek, minutesPerDay) {
       return await postJSON({ action: "plan_generate", notes, examDate, daysPerWeek, minutesPerDay });
     }
@@ -1354,13 +1501,71 @@ Used in function calls, undo history, and expression evaluation..."
       try { localStorage.setItem(CARDS_KEY, JSON.stringify(cards || [])); } catch (e) {}
     }
 
+
+    function todayString() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function reviewCompletedKey() {
+      return "aiTutorReviewCompleted-" + todayString();
+    }
+
+    function getCompletedToday() {
+      return Number(localStorage.getItem(reviewCompletedKey()) || "0");
+    }
+
+    function setCompletedToday(value) {
+      localStorage.setItem(reviewCompletedKey(), String(value));
+    }
+
+    function incrementCompletedToday() {
+      const next = getCompletedToday() + 1;
+      setCompletedToday(next);
+      return next;
+    }
+
+    function showReviewFeedback(message) {
+      const el = document.getElementById("review-feedback");
+      if (!el) return;
+      el.textContent = message;
+      el.style.display = "block";
+      clearTimeout(window.reviewFeedbackTimer);
+      window.reviewFeedbackTimer = setTimeout(() => {
+        el.style.display = "none";
+      }, 3000);
+    }
+
+    function updateReviewStats(currentLabel = null) {
+      const cards = loadCards();
+      const today = todayString();
+      const dueCount = cards.filter(c => !c.nextReviewDate || c.nextReviewDate <= today).length;
+      const completed = getCompletedToday();
+      const totalDueStart = Math.max(dueCount + completed, 1);
+      const pct = Math.min(100, Math.round((completed / totalDueStart) * 100));
+
+      const totalEl = document.getElementById("review-total-cards");
+      const dueEl = document.getElementById("review-due-cards");
+      const completedEl = document.getElementById("review-completed-today");
+      const currentEl = document.getElementById("review-current-card");
+      const fillEl = document.getElementById("review-progress-fill");
+
+      if (totalEl) totalEl.textContent = cards.length;
+      if (dueEl) dueEl.textContent = dueCount;
+      if (completedEl) completedEl.textContent = completed;
+      if (currentEl) currentEl.textContent = currentLabel || (deckCards.length ? `${deckIndex + 1}/${deckCards.length}` : "—");
+      if (fillEl) fillEl.style.width = pct + "%";
+    }
+
     async function loadFlashcardsFromDatabase() {
       try {
         const data = await apiFlashcardsLoad();
         const cards = (data.cards || []).map(c => ({
+          id: c.id || null,
           front: String(c.front || ""),
           back: String(c.back || ""),
-          topic: String(c.topic || "Flashcards")
+          topic: String(c.topic || "Flashcards"),
+          nextReviewDate: c.nextReviewDate || c.next_review_date || "",
+          reviewCount: Number(c.reviewCount || c.review_count || 0)
         })).filter(c => c.front && c.back);
 
         if (cards.length) {
@@ -1381,7 +1586,9 @@ Used in function calls, undo history, and expression evaluation..."
       const el = document.getElementById("cards-status");
       if (!el) return;
       const cards = loadCards();
-      el.textContent = cards.length ? `${cards.length} cards saved` : "No cards yet";
+      const dueCount = cards.filter(c => !c.nextReviewDate || c.nextReviewDate <= todayString()).length;
+      el.textContent = cards.length ? `${cards.length} cards saved • ${dueCount} due today` : "No cards yet";
+      updateReviewStats();
       updateDashboard();
     }
 
@@ -1399,9 +1606,12 @@ Used in function calls, undo history, and expression evaluation..."
       try {
         const data = await apiFlashcardsGenerate(notes, count);
         const cards = (data.cards || []).map(c => ({
+          id: c.id || null,
           front: String(c.front || ""),
           back: String(c.back || ""),
-          topic: String(c.topic || "Flashcards")
+          topic: String(c.topic || "Flashcards"),
+          nextReviewDate: c.nextReviewDate || c.next_review_date || "",
+          reviewCount: Number(c.reviewCount || c.review_count || 0)
         })).filter(c => c.front && c.back);
 
         saveCards(cards);
@@ -1419,6 +1629,45 @@ Used in function calls, undo history, and expression evaluation..."
       updateDashboard();
     }
 
+    async function startDueReviewMode() {
+      const box = document.getElementById("card-box");
+      box.innerHTML = `<div class="review-empty-state">Loading cards due today...</div>`;
+
+      try {
+        const data = await apiDueFlashcardsLoad();
+        deckCards = (data.cards || []).map(c => ({
+          id: c.id || null,
+          front: String(c.front || ""),
+          back: String(c.back || ""),
+          topic: String(c.topic || "Flashcards"),
+          nextReviewDate: c.nextReviewDate || c.next_review_date || "",
+          reviewCount: Number(c.reviewCount || c.review_count || 0)
+        })).filter(c => c.front && c.back);
+
+        deckIndex = 0;
+        deckShowingBack = false;
+
+        if (!deckCards.length) {
+          box.innerHTML = `
+            <div class="review-empty-state">
+              <strong>No cards are due today.</strong><br>
+              Nice job staying on track. You can still click “View all cards” if you want extra practice.
+            </div>
+          `;
+          await loadFlashcardsFromDatabase();
+          updateCardsStatus();
+          updateReviewStats("Done");
+          return;
+        }
+
+        showReviewFeedback(`${deckCards.length} card(s) due today. Start with the first one.`);
+        renderDeckCard();
+        updateCardsStatus();
+      } catch (e) {
+        box.innerHTML = `<div class="review-empty-state">Error loading due cards: ${escapeHtml(e.message || "please try again.")}</div>`;
+      }
+    }
+
     function startDeckMode() {
       deckCards = loadCards();
       deckIndex = 0;
@@ -1430,52 +1679,110 @@ Used in function calls, undo history, and expression evaluation..."
     function renderDeckCard() {
       const box = document.getElementById("card-box");
       if (!deckCards.length) {
-        box.textContent = "No flashcards yet. Click “Generate from notes” first.";
+        box.innerHTML = `<div class="review-empty-state">No flashcards yet. Click “Generate from notes” first.</div>`;
+        updateReviewStats("—");
         return;
       }
 
       const card = deckCards[deckIndex];
       const faceText = deckShowingBack ? card.back : card.front;
       const faceLabel = deckShowingBack ? "Answer" : "Question";
+      const nextReview = card.nextReviewDate ? escapeHtml(card.nextReviewDate) : "Due now";
+      const reviewCount = Number(card.reviewCount || 0);
+      const isDue = !card.nextReviewDate || card.nextReviewDate <= todayString();
+      const dueLabel = isDue ? "Due today" : `Next: ${nextReview}`;
 
       box.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-          <div style="font-weight:800; color:var(--primary-dark);">${escapeHtml(card.topic || "Flashcards")}</div>
-          <div style="font-size:0.85rem; color:var(--muted);">${deckIndex + 1} / ${deckCards.length}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap:wrap;">
+          <div>
+            <div style="font-weight:800; color:var(--primary-dark);">${escapeHtml(card.topic || "Flashcards")}</div>
+            <div style="font-size:0.82rem; color:var(--muted); margin-top:4px;">
+              Review count: ${reviewCount} • ${dueLabel}
+            </div>
+          </div>
+          <div style="font-size:0.85rem; color:var(--muted); font-weight:800;">${deckIndex + 1} / ${deckCards.length}</div>
         </div>
 
-        <div
-          style="
-            border-radius:20px;
-            border:1px solid var(--border);
-            background:#fcfcfa;
-            padding:22px;
-            min-height:180px;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            cursor:pointer;
-          "
-          onclick="flipDeckCard()"
-        >
-          <div style="font-size:0.76rem; letter-spacing:0.06em; text-transform:uppercase; opacity:0.8; margin-bottom:10px; color:var(--muted); font-weight:700;">
+        <div class="review-card-face" onclick="flipDeckCard()">
+          <div style="font-size:0.76rem; letter-spacing:0.06em; text-transform:uppercase; opacity:0.8; margin-bottom:10px; color:var(--muted); font-weight:800;">
             ${faceLabel}
           </div>
-          <div style="font-size:1.06rem; line-height:1.6; color:var(--text);">
-            ${escapeHtml(faceText)}
-          </div>
-          <div style="margin-top:16px; font-size:0.85rem; color:var(--muted-2);">
-            Click card to flip
-          </div>
+          <div class="review-card-text">${escapeHtml(faceText)}</div>
+          <div style="margin-top:18px; font-size:0.85rem; color:var(--muted-2);">Click card to flip</div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;">
+        <div class="review-choice-row">
           <button class="btn-outline" onclick="prevDeckCard()">◀ Prev</button>
           <button class="btn-outline" onclick="flipDeckCard()">Flip</button>
           <button class="btn-primary" onclick="nextDeckCard()">Next ▶</button>
           <button class="btn-outline" onclick="shuffleDeck()">Shuffle</button>
+          ${card.id ? `<button class="btn-outline" onclick="markCardReviewed('again')">Again</button>` : ""}
+          ${card.id ? `<button class="btn-primary" onclick="markCardReviewed('good')">Got it</button>` : ""}
+          ${card.id ? `<button class="btn-outline" onclick="markCardReviewed('easy')">Easy</button>` : ""}
         </div>
+
+        ${card.id ? `
+          <p class="hint" style="margin-top:12px;">
+            Choose <strong>Again</strong> if you missed it, <strong>Got it</strong> if you knew it, or <strong>Easy</strong> if it was very simple.
+          </p>
+        ` : ""}
       `;
+
+      updateReviewStats(`${deckIndex + 1}/${deckCards.length}`);
+    }
+
+    async function markCardReviewed(result) {
+      if (!deckCards.length) return;
+      const card = deckCards[deckIndex];
+      if (!card.id) {
+        nextDeckCard();
+        return;
+      }
+
+      try {
+        const data = await apiFlashcardReview(card.id, result);
+        card.reviewCount = data.reviewCount || card.reviewCount || 0;
+        card.nextReviewDate = data.nextReviewDate || card.nextReviewDate || "";
+
+        const saved = loadCards().map(c => {
+          if (String(c.id) === String(card.id)) {
+            return { ...c, reviewCount: card.reviewCount, nextReviewDate: card.nextReviewDate };
+          }
+          return c;
+        });
+        saveCards(saved);
+
+        incrementCompletedToday();
+
+        const feedbackText = result === "again"
+          ? `Marked again. This card will come back soon.`
+          : result === "easy"
+            ? `Nice — marked easy. Next review: ${card.nextReviewDate}`
+            : `Good job — card completed. Next review: ${card.nextReviewDate}`;
+        showReviewFeedback(feedbackText);
+
+        deckCards.splice(deckIndex, 1);
+        if (deckIndex >= deckCards.length) deckIndex = 0;
+        deckShowingBack = false;
+
+        if (!deckCards.length) {
+          document.getElementById("card-box").innerHTML = `
+            <div class="review-empty-state">
+              <strong>Review complete.</strong><br>
+              You finished all cards due right now. Your completed count has been updated.
+            </div>
+          `;
+          await loadFlashcardsFromDatabase();
+          updateCardsStatus();
+          updateReviewStats("Done");
+          return;
+        }
+
+        renderDeckCard();
+        updateCardsStatus();
+      } catch (e) {
+        alert("Could not update review: " + (e.message || "please try again."));
+      }
     }
 
     function flipDeckCard() {
