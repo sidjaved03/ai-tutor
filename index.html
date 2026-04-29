@@ -1171,6 +1171,10 @@ Used in function calls, undo history, and expression evaluation..."
       return await postJSON({ action: "flashcards_generate", notes, count });
     }
 
+    async function apiFlashcardsLoad() {
+      return await postJSON({ action: "load_flashcards" });
+    }
+
     async function apiPlanGenerate(notes, examDate, daysPerWeek, minutesPerDay) {
       return await postJSON({ action: "plan_generate", notes, examDate, daysPerWeek, minutesPerDay });
     }
@@ -1257,6 +1261,7 @@ Used in function calls, undo history, and expression evaluation..."
       checkAuth();
       loadNotesFromStorage();
       loadNotesFromDatabase();
+      loadFlashcardsFromDatabase();
       document.getElementById("notes-textarea").addEventListener("input", saveNotesToStorage);
 
       renderMessages();
@@ -1347,6 +1352,29 @@ Used in function calls, undo history, and expression evaluation..."
 
     function saveCards(cards) {
       try { localStorage.setItem(CARDS_KEY, JSON.stringify(cards || [])); } catch (e) {}
+    }
+
+    async function loadFlashcardsFromDatabase() {
+      try {
+        const data = await apiFlashcardsLoad();
+        const cards = (data.cards || []).map(c => ({
+          front: String(c.front || ""),
+          back: String(c.back || ""),
+          topic: String(c.topic || "Flashcards")
+        })).filter(c => c.front && c.back);
+
+        if (cards.length) {
+          saveCards(cards);
+          updateCardsStatus();
+
+          const flashSection = document.getElementById("section-flashcards");
+          if (flashSection && flashSection.classList.contains("active")) {
+            startDeckMode();
+          }
+        }
+      } catch (e) {
+        console.log("Could not load flashcards from database:", e.message);
+      }
     }
 
     function updateCardsStatus() {
