@@ -1097,9 +1097,43 @@ Used in function calls, undo history, and expression evaluation..."
       } catch (e) {}
     }
 
+    let notesSaveTimer = null;
+
     function saveNotesToStorage() {
       const notes = document.getElementById("notes-textarea").value;
+
+      // Keep the instant local backup so the page feels fast.
       try { localStorage.setItem(NOTES_KEY, notes); } catch (e) {}
+
+      // Save to PostgreSQL through Lambda after the user pauses typing.
+      clearTimeout(notesSaveTimer);
+      notesSaveTimer = setTimeout(async () => {
+        try {
+          await postJSON({
+            action: "save_notes",
+            notes: notes
+          });
+          console.log("Notes saved to database");
+        } catch (e) {
+          console.log("Could not save notes to database:", e.message);
+        }
+      }, 900);
+
+      updateDashboard();
+    }
+
+    async function loadNotesFromDatabase() {
+      try {
+        const data = await postJSON({ action: "load_notes" });
+
+        if (data.notes) {
+          document.getElementById("notes-textarea").value = data.notes;
+          try { localStorage.setItem(NOTES_KEY, data.notes); } catch (e) {}
+        }
+      } catch (e) {
+        console.log("Could not load notes from database:", e.message);
+      }
+
       updateDashboard();
     }
 
@@ -1222,6 +1256,7 @@ Used in function calls, undo history, and expression evaluation..."
     document.addEventListener("DOMContentLoaded", () => {
       checkAuth();
       loadNotesFromStorage();
+      loadNotesFromDatabase();
       document.getElementById("notes-textarea").addEventListener("input", saveNotesToStorage);
 
       renderMessages();
